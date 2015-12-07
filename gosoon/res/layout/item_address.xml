@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="5dp"
+    android:paddingRight="15dp"
+    android:paddingLeft="15dp"
+    android:orientation="vertical" >
+	<RelativeLayout 
+	    android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+	    >
+		<CheckBox
+		    android:id="@+id/cb_address_check"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_centerVertical="true"
+		    android:background="@drawable/cb_shoppingcart"
+		    android:button="@null" />
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="15dp"
+	        android:layout_marginRight="5dp"
+	        android:layout_toLeftOf="@+id/iv_arrow"
+	        android:layout_toRightOf="@+id/cb_address_check"
+	        android:orientation="vertical" >
+	
+	        <LinearLayout 
+	            android:layout_width="wrap_content"
+	        	android:layout_height="wrap_content"
+	        	android:orientation="horizontal"
+	            >
+	
+	            <TextView
+	                android:id="@+id/tv_address_recipients"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:text="收货人"
+	                android:textSize="18sp" />
+	
+	            <TextView
+	                android:id="@+id/tv_address_name"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_marginLeft="15dp"
+	                android:text="公司 "
+	                android:textSize="14sp"
+	                android:textColor="@color/products_item_promote"
+	                android:visibility="gone"
+	                />
+	        </LinearLayout>
+	
+			<TextView
+			    android:id="@+id/tv_address_province"
+			    style="@style/tv_address_summery"
+			    android:layout_marginTop="5dp"
+			    android:text="江苏省 南通市 崇川区" />
+	
+			<TextView
+			    android:id="@+id/tv_address_street"
+			    style="@style/tv_address_summery"
+			    android:text="濠东路42号14栋502室" />
+	
+			<TextView 
+			    android:id="@+id/tv_address_phone"
+			    style="@style/tv_address_summery"
+			    android:layout_marginTop="5dp"
+			    android:text="18626373422"/>
+	        
+	    </LinearLayout>
+	
+		<ImageView
+		    android:id="@+id/iv_arrow"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentRight="true"
+	        android:layout_centerVertical="true"
+	        android:src="@drawable/arrow_listpage" />
+		</RelativeLayout>
+
+	<View
+	    style="@style/login_line"
+	    android:layout_marginTop="10dp" />
+
+</LinearLayout>

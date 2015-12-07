@@ -1,0 +1,227 @@
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/gosoon/!svn/ver/3/trunk/gosoon/res/layout
+END
+activity_recharge.xml
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/gosoon/!svn/ver/11/trunk/gosoon/res/layout/activity_recharge.xml
+END
+fragment_shoppingcart.xml
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/gosoon/!svn/ver/3/trunk/gosoon/res/layout/fragment_shoppingcart.xml
+END
+fragment_address_list.xml
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/gosoon/!svn/ver/3/trunk/gosoon/res/layout/fragment_address_list.xml
+END
+fragment_user.xml
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/gosoon/!svn/ver/10/trunk/gosoon/res/layout/fragment_user.xml
+END
+no_collection.xml
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/gosoon/!svn/ver/3/trunk/gosoon/res/layout/no_collection.xml
+END
+activity_order_result.xml
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/gosoon/!svn/ver/10/trunk/gosoon/res/layout/activity_order_result.xml
+END
+top_line.xml
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/gosoon/!svn/ver/3/trunk/gosoon/res/layout/top_line.xml
+END
+activity_my_collection.xml
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/gosoon/!svn/ver/3/trunk/gosoon/res/layout/activity_my_collection.xml
+END
+fragment_setting.xml
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/gosoon/!svn/ver/10/trunk/gosoon/res/layout/fragment_setting.xml
+END
+item_confirm_order.xml
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/gosoon/!svn/ver/3/trunk/gosoon/res/layout/item_confirm_order.xml
+END
+activity_main.xml
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/gosoon/!svn/ver/10/trunk/gosoon/res/layout/activity_main.xml
+END
+fragment_products_list.xml
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/gosoon/!svn/ver/3/trunk/gosoon/res/layout/fragment_products_list.xml
+END
+item_category.xml
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/gosoon/!svn/ver/3/trunk/gosoon/res/layout/item_category.xml
+END
+activity_my_order.xml
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/gosoon/!svn/ver/3/trunk/gosoon/res/layout/activity_my_order.xml
+END
+item_my_orders.xml
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/gosoon/!svn/ver/3/trunk/gosoon/res/layout/item_my_orders.xml
+END
+fragment_home.xml
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/gosoon/!svn/ver/8/trunk/gosoon/res/layout/fragment_home.xml
+END
+number_select.xml
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/gosoon/!svn/ver/3/trunk/gosoon/res/layout/number_select.xml
+END
+item_shoppingcart.xml
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/gosoon/!svn/ver/3/trunk/gosoon/res/layout/item_shoppingcart.xml
+END
+no_address.xml
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/gosoon/!svn/ver/3/trunk/gosoon/res/layout/no_address.xml
+END
+details_imageshow_item.xml
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/gosoon/!svn/ver/3/trunk/gosoon/res/layout/details_imageshow_item.xml
+END
+activity_login.xml
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/gosoon/!svn/ver/10/trunk/gosoon/res/layout/activity_login.xml
+END
+item_order_goods.xml
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/gosoon/!svn/ver/3/trunk/gosoon/res/layout/item_order_goods.xml
+END
+products_top.xml
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/gosoon/!svn/ver/11/trunk/gosoon/res/layout/products_top.xml
+END
+top_detail.xml
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/gosoon/!svn/ver/3/trunk/gosoon/res/layout/top_detail.xml
+END
+top_login.xml
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/gosoon/!svn/ver/3/trunk/gosoon/res/layout/top_login.xml
+END
+fragment_address_edit.xml
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/gosoon/!svn/ver/10/trunk/gosoon/res/layout/fragment_address_edit.xml
+END
+main_category.xml
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/gosoon/!svn/ver/3/trunk/gosoon/res/layout/main_category.xml
+END
+no_shoppingcart.xml
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/gosoon/!svn/ver/6/trunk/gosoon/res/layout/no_shoppingcart.xml
+END
+fragment_settle_account.xml
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/gosoon/!svn/ver/11/trunk/gosoon/res/layout/fragment_settle_account.xml
+END
+item_address.xml
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/gosoon/!svn/ver/10/trunk/gosoon/res/layout/item_address.xml
+END
+item_collection.xml
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/gosoon/!svn/ver/10/trunk/gosoon/res/layout/item_collection.xml
+END
+products_detail.xml
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/gosoon/!svn/ver/10/trunk/gosoon/res/layout/products_detail.xml
+END
+fragment_category.xml
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/gosoon/!svn/ver/3/trunk/gosoon/res/layout/fragment_category.xml
+END
+main_top.xml
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/gosoon/!svn/ver/11/trunk/gosoon/res/layout/main_top.xml
+END
+item_products.xml
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/gosoon/!svn/ver/10/trunk/gosoon/res/layout/item_products.xml
+END
+no_order.xml
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/gosoon/!svn/ver/3/trunk/gosoon/res/layout/no_order.xml
+END
+activity_register.xml
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/gosoon/!svn/ver/10/trunk/gosoon/res/layout/activity_register.xml
+END

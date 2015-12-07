@@ -1,0 +1,12 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/full_image_root"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/lost_goods_detail">
+
+    <com.gosoon.view.TouchImageView
+        android:id="@+id/full_image"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+         />
+</RelativeLayout>

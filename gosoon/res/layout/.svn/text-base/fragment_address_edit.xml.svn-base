@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="5dp"
+    tools:context=".AddressEditActivity" >
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/top_detail" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/btn_commit"
+            android:layout_alignParentTop="true" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:id="@+id/ly_address_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:visibility="gone" >
+
+                    <TextView
+                        style="@style/label_address_edit"
+                        android:layout_width="54sp"
+                        android:text="@string/label_name" />
+
+                    <EditText
+                        android:id="@+id/et_address_name"
+                        style="@style/confirm_order_text_label"
+                        android:layout_width="match_parent"
+                        android:background="@null"
+                        android:hint="@string/label_address_name" >
+                    </EditText>
+                </LinearLayout>
+
+                <View style="@style/confirm_order_line" android:visibility="gone"/>
+
+                <RelativeLayout
+                    android:id="@+id/ly_address_province"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        style="@style/label_address_edit"
+                        android:text="@string/label_province" />
+
+                    <TextView
+                        android:id="@+id/tv_address_province"
+                        style="@style/confirm_order_text_label"
+                        android:layout_toLeftOf="@+id/iv_arrow"
+                        android:text="@string/label_pls_select" />
+
+                    <ImageView
+                        android:id="@+id/iv_arrow"
+                        style="@style/address_edit_arrow" />
+                </RelativeLayout>
+
+                <View style="@style/confirm_order_line" />
+
+                <RelativeLayout
+                    android:id="@+id/ly_address_city"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        style="@style/label_address_edit"
+                        android:text="@string/label_city" />
+
+                    <TextView
+                        android:id="@+id/tv_address_city"
+                        style="@style/confirm_order_text_label"
+                        android:layout_toLeftOf="@+id/iv_arrow"
+                        android:text="@string/label_pls_select" />
+
+                    <ImageView
+                        android:id="@+id/iv_arrow"
+                        style="@style/address_edit_arrow" />
+                </RelativeLayout>
+
+                <View style="@style/confirm_order_line" />
+
+                <RelativeLayout
+                    android:id="@+id/ly_address_area"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        style="@style/label_address_edit"
+                        android:text="@string/label_area" />
+
+                    <TextView
+                        android:id="@+id/tv_address_area"
+                        style="@style/confirm_order_text_label"
+                        android:layout_toLeftOf="@+id/iv_arrow"
+                        android:text="@string/label_pls_select" />
+
+                    <ImageView
+                        android:id="@+id/iv_arrow"
+                        style="@style/address_edit_arrow" />
+                </RelativeLayout>
+
+                <View style="@style/confirm_order_line" />
+
+                <LinearLayout
+                    android:id="@+id/ly_address_street"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        style="@style/label_address_edit"
+                        android:text="@string/label_street" />
+
+                    <EditText
+                        android:id="@+id/et_address_street"
+                        style="@style/confirm_order_text_label"
+                        android:layout_width="match_parent"
+                        android:background="@null" >
+                    </EditText>
+                </LinearLayout>
+
+                <View style="@style/confirm_order_line" />
+
+                <LinearLayout
+                    android:id="@+id/ly_address_recipients"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        style="@style/label_address_edit"
+                        android:text="@string/label_recipients" />
+
+                    <EditText
+                        android:id="@+id/et_address_recipients"
+                        style="@style/confirm_order_text_label"
+                        android:layout_width="match_parent"
+                        android:background="@null"
+                        android:paddingLeft="0dp" >
+                    </EditText>
+                </LinearLayout>
+
+                <View style="@style/confirm_order_line" />
+
+                <LinearLayout
+                    android:id="@+id/ly_address_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        style="@style/label_address_edit"
+                        android:text="@string/label_phone" />
+
+                    <EditText
+                        android:id="@+id/et_address_phone"
+                        style="@style/confirm_order_text_label"
+                        android:layout_width="match_parent"
+                        android:background="@null"
+                        android:inputType="phone" >
+                    </EditText>
+                </LinearLayout>
+
+                <View style="@style/confirm_order_line" />
+            </LinearLayout>
+        </ScrollView>
+
+        <!--
+             <Button
+            android:id="@+id/btn_commit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/products_item_promote"
+            android:text="@string/commit" />
+        -->
+
+        <Button
+            android:id="@+id/btn_commit"
+            style="@style/btn_green"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="0dp"
+            android:onClick="onClick"
+            android:text="@string/commit" />
+    </RelativeLayout>
+
+</LinearLayout>

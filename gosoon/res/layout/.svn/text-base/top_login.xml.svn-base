@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_user"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    >
+
+	<ImageView
+	    android:id="@+id/iv_user_logo"
+	    style="@style/iv_user_logo"
+	    android:layout_marginLeft="20dp"
+	     />
+	
+	<TextView
+	    android:id="@+id/tv_user_name"
+	    style="@style/tv_user_info"
+	    android:layout_alignTop="@+id/iv_user_logo"
+	    android:layout_marginLeft="20sp"
+	    android:layout_marginTop="15dp"
+	    android:layout_toRightOf="@+id/iv_user_logo"
+	    android:text="18626373423" />
+
+	<TextView
+	    android:id="@+id/tv_user_banlance"
+	    style="@style/tv_user_info"
+	    android:layout_centerVertical="true"
+	    android:layout_toRightOf="@+id/iv_user_logo"
+	    android:layout_marginLeft="20sp"
+	    android:text="我的余额：0.00元" />
+
+</RelativeLayout>

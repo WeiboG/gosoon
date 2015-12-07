@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_top_login"
+    android:orientation="vertical" >
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/top_detail" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@color/bg_top_login"
+         />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical" >
+
+        <View style="@style/login_line" />
+
+        <EditText
+            android:id="@+id/et_reg_phone"
+            style="@style/confirm_order_text_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="18dp"
+            android:background="@null"
+            android:hint="@string/label_phone_num_hint"
+            android:inputType="phone" >
+        </EditText>
+
+        <View style="@style/confirm_order_line" />
+
+        <EditText
+            android:id="@+id/et_reg_password"
+            style="@style/confirm_order_text_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="18dp"
+            android:layout_marginRight="0dp"
+            android:background="@null"
+            android:hint="@string/label_password_hint"
+            android:inputType="textPassword" >
+        </EditText>
+
+        <View style="@style/confirm_order_line" />
+
+        <EditText
+            android:id="@+id/et_reg_repassword"
+            style="@style/confirm_order_text_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="18dp"
+            android:layout_marginRight="0dp"
+            android:background="@null"
+            android:hint="@string/label_repassword_hint"
+            android:inputType="textPassword" >
+        </EditText>
+
+        <View style="@style/confirm_order_line" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <EditText
+                android:id="@+id/et_verify_code"
+                style="@style/confirm_order_text_label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="18dp"
+                android:layout_weight="5"
+                android:background="@null"
+                android:hint="@string/label_verify_code_hint"
+                android:inputType="number"
+                android:maxLength="6" />
+
+            <Button
+                android:id="@+id/btn_verify_code"
+                style="@style/btn_green"
+                android:layout_width="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_weight="4"
+                android:onClick="onClick"
+                android:text="@string/send_verify_code" />
+        </LinearLayout>
+
+        <View style="@style/login_line" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_submit"
+        style="@style/btn_green"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:onClick="onClick"
+        android:text="@string/submit" />
+
+</LinearLayout>

@@ -1,0 +1,133 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity" >
+
+    <LinearLayout
+        android:id="@+id/ll_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/rl_bottom_navi"
+        android:orientation="vertical" >
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/rl_bottom_navi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/navi_background" >
+
+        <RelativeLayout
+            android:id="@+id/rl_navi_home"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+
+            <ImageView
+                android:id="@+id/iv_navi_home"
+                style="@style/navi_image_style"
+                android:background="@drawable/navi_home" />
+
+            <TextView
+                android:id="@+id/tv_navi_home"
+                style="@style/navi_label_style"
+                android:layout_below="@+id/iv_navi_home"
+                android:text="@string/navi_home" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_navi_category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+
+            <ImageView
+                android:id="@+id/iv_navi_category"
+                style="@style/navi_image_style"
+                android:background="@drawable/navi_category" />
+
+            <TextView
+                android:id="@+id/tv_navi_category"
+                style="@style/navi_label_style"
+                android:layout_below="@+id/iv_navi_category"
+                android:text="@string/navi_category" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_navi_shoppingcart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+
+            <RelativeLayout
+                android:id="@+id/rl_iv_navi_shoppingcart"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <ImageView
+                    android:id="@+id/iv_navi_shoppingcart"
+                    style="@style/navi_image_style"
+                    android:background="@drawable/navi_shoppingcart" />
+
+                <com.gosoon.view.CircleView
+                    android:id="@+id/tv_navi_shoppingcart_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginRight="10dp"
+                    android:gravity="center"
+                    android:textColor="#fff"
+                    android:textSize="12sp" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_navi_shoppingcart"
+                style="@style/navi_label_style"
+                android:layout_below="@+id/rl_iv_navi_shoppingcart"
+                android:text="@string/navi_shoppingcart" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_navi_user"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+
+            <ImageView
+                android:id="@+id/iv_navi_user"
+                style="@style/navi_image_style"
+                android:background="@drawable/navi_user" />
+
+            <TextView
+                android:id="@+id/tv_navi_user"
+                style="@style/navi_label_style"
+                android:layout_below="@+id/iv_navi_user"
+                android:text="@string/navi_user" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_navi_setting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:visibility="gone" >
+
+            <ImageView
+                android:id="@+id/iv_navi_setting"
+                style="@style/navi_image_style"
+                android:background="@drawable/navi_setting" />
+
+            <TextView
+                android:id="@+id/tv_navi_setting"
+                style="@style/navi_label_style"
+                android:layout_below="@+id/iv_navi_setting"
+                android:text="@string/navi_setting" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</RelativeLayout>

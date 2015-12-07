@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
+    android:paddingTop="5dp" >
+
+    <ImageView
+        android:id="@+id/iv_products_item"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginRight="5dp"
+        android:src="@drawable/tmp_products_item" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/ly_bottom"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@+id/iv_products_item"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/tv_order_code"
+            style="@style/products_item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="订单编号：201501035689" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_order_code"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/label_products_size"
+                style="@style/products_item_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_order_date" />
+
+            <TextView
+                android:id="@+id/tv_order_date"
+                style="@style/products_item_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="205-01-13" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/arrow_listpage" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/ly_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="32sp"
+        android:layout_alignBottom="@+id/iv_products_item"
+        android:layout_toRightOf="@+id/iv_products_item"
+        >
+
+        <TextView
+            android:id="@+id/tv_rmb_label"
+            style="@style/products_item_rmb_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="5dp"
+            android:text="@string/label_rmb" />
+
+        <TextView
+            android:id="@+id/tv_order_amount"
+            style="@style/products_item_price_promote"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/tv_rmb_label"
+            android:text="36" />
+
+        <TextView
+            android:id="@+id/tv_order_status"
+            style="@style/products_item_price_promote"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp"
+            android:text="待支付"
+            android:textSize="20sp" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dip"
+        android:layout_below="@+id/iv_products_item"
+        android:background="@color/products_item_price_market" />
+
+</RelativeLayout>

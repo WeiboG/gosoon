@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
+    android:paddingTop="5dp" >
+
+    <ImageView
+        android:id="@+id/iv_products_item"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginRight="5dp"
+        android:src="@drawable/tmp_products_item" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@+id/iv_products_item"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/tv_products_name_item"
+            style="@style/products_item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="超大佳沛新西兰金奇异果" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/label_products_size"
+                style="@style/products_item_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_products_size" />
+
+            <TextView
+                android:id="@+id/tv_products_size"
+                style="@style/products_item_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="4个装" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal"
+            android:visibility="gone" >
+
+            <TextView
+                android:id="@+id/label_products_promote"
+                style="@style/products_item_promote"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_products_promote" />
+
+            <TextView
+                android:id="@+id/tv_products_promote"
+                style="@style/products_item_promote"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="满199减60" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ly_buy_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal"
+            android:visibility="visible" >
+
+            <TextView
+                android:id="@+id/label_buy_num"
+                style="@style/products_item_promote"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_buy_num" />
+
+            <TextView
+                android:id="@+id/tv_buy_num"
+                style="@style/products_item_promote"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/iv_products_item"
+        android:layout_toRightOf="@+id/iv_products_item" >
+
+        <TextView
+            style="@style/products_item_rmb_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="5dp"
+            android:text="@string/label_rmb" />
+
+        <TextView
+            android:id="@+id/tv_products_price_promote"
+            style="@style/products_item_price_promote"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="36" />
+
+        <TextView
+            android:id="@+id/tv_products_price_market"
+            style="@style/products_item_price_market"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:text="¥ 60" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dip"
+        android:layout_below="@+id/iv_products_item"
+        android:background="@color/products_item_price_market" />
+
+</RelativeLayout>

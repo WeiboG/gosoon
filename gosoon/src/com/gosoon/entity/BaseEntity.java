@@ -1,0 +1,270 @@
+package com.gosoon.entity;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.util.Log;
+
+import com.gosoon.util.StringUtil;
+import com.gosoon.util.programSetting;
+
+abstract public class BaseEntity {
+
+	protected JSONObject mJson = null;
+	public BaseEntity() {
+		mJson = new JSONObject();
+	}
+
+	public BaseEntity(JSONObject json){
+		praseJson(json);
+	}
+
+	public void praseJson(JSONObject json) {
+		mJson = json;
+	}
+
+	public String toString() {
+		if (mJson != null) {
+			return mJson.toString();
+		}
+		return "";
+	}
+
+	public boolean fromString(String content){
+		if (StringUtil.isEmpty(content)){
+			return false;
+		}
+		try {
+			praseJson(new JSONObject(content));
+			return true;
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	abstract public tableConfig getTable();
+
+	public String getValueAsString(String name, String defaultValue) {
+		if (mJson != null && mJson.has(name)){
+			try {
+				return mJson.getString(name);
+			} catch (JSONException e){
+				e.printStackTrace();
+			}
+		}
+		return defaultValue;
+	}
+	
+	public boolean setValueAsString(String name, String value) {
+		if (mJson != null) {
+			try {
+			    mJson.put(name, value);
+			    return true;
+			} catch (JSONException e){
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+	
+	public int getValueAsInt(String name, int defaultValue) {
+		if (mJson != null && mJson.has(name)) {
+			try {
+				return mJson.getInt(name);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		return defaultValue;
+	}
+
+	public boolean setValueAsInt(String name, int value) {
+		if (mJson != null) {
+			try {
+			    mJson.put(name, value);
+			    return true;
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+	
+	public boolean getValueAsBoolean(String name, boolean defaultValue) {
+		if (mJson != null && mJson.has(name)) {
+			try {
+				return mJson.getBoolean(name);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		return defaultValue;
+	}
+	
+	public boolean setValueAsBoolean(String name, boolean value) {
+		if (mJson != null) {
+			try {
+			    mJson.put(name, value);
+			    return true;
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+	
+	public double getValueAsDouble(String name, double defaultValue) {
+		if (mJson != null && mJson.has(name)) {
+			try {
+				return mJson.getDouble(name);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		return defaultValue;
+	}
+	public long getValueAsLong(String name, long defaultValue) {
+		if (mJson != null && mJson.has(name)) {
+			try {
+				return mJson.getLong(name);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		return defaultValue;
+	}
+
+	public String getUrlAsString(String name, String defaultValue) {
+		if (mJson != null && mJson.has(name)) {
+			try {
+				String url = mJson.getString(name);
+				if (!url.startsWith("http")) {
+					url = programSetting.getRequestUrl() + url;
+				}
+				return url;
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		return defaultValue;
+	}
+
+	public boolean has(String name) {
+		if (mJson != null && mJson.has(name)) {
+			return true;
+		}
+		return false;
+	}
+	
+	public void remove(String name) {
+		if (mJson != null) {
+			mJson.remove(name);
+		}
+	}
+
+	public String getUpdateSql(String conditionkey) {
+		String sql = "UPDATE " + getTable().mTableName + " SET ";
+		String setValues = "";
+		Iterator it = mJson.keys();
+		while (it.hasNext()) {
+			String key = (String) it.next();
+			String value = "";
+			try {
+				value = mJson.getString(key);
+			} catch (JSONException e) {
+				e.printStackTrace();
+				continue;
+			}
+			if (StringUtil.isEmpty(value)) {
+				continue;
+			}
+			if (!setValues.isEmpty()) {
+				setValues += ", ";
+			} 
+			setValues += key + "='" + value + "'";
+		}
+		sql += setValues + " WHERE " + conditionkey + "=" + getValueAsString(conditionkey, "");
+		return sql;
+	}
+
+	public String getSelectSql(String condition, BaseEntity relationShipEntity) {
+		String sql = "SELECT ";
+		String tableName = getTable().mTableName;
+		Set<String> keyset = getTable().getColumns().keySet();
+		Iterator<String> it = keyset.iterator();
+		String temp = "";
+		while (it.hasNext()) {
+			String key = it.next();
+			if (!StringUtil.isEmpty(temp)) {
+				temp += ", ";
+			}
+			temp = tableName + "." + key + " as " + tableName + key;
+		}
+		if (relationShipEntity != null) {
+			String tableName2 = relationShipEntity.getTable().mTableName;
+			Set<String> keyset2 = relationShipEntity.getTable().getColumns().keySet();
+			Iterator<String> it2 = keyset2.iterator();
+			while (it2.hasNext()) {
+				String key = it2.next();
+				if (!StringUtil.isEmpty(temp)) {
+					temp += ", ";
+				}
+				temp = tableName2 + "." + key + " as " + tableName2 + key;
+			}
+		}
+		sql += temp + " FROM " + tableName;
+		if (relationShipEntity != null) {
+			sql += " LEFT JOIN " + relationShipEntity.getTable().mTableName;
+		}
+		sql += " WHERE " + condition;
+		return sql;
+	}
+	
+	public void praseSelectResult(ArrayList<JSONObject> jsons) {
+		
+	}
+
+	public class tableConfig {
+	    public final String mTableName;
+	    Map<String, columnConfig> mColumns = new HashMap<String, columnConfig>();
+	    
+	    public tableConfig(String table) {
+	    	mTableName = table;
+	    }
+	    
+	    protected void addColumn(columnConfig column) {
+	    	mColumns.put(column.mColumnName, column);
+	    }
+
+	    public Map<String, columnConfig> getColumns() {
+	        return mColumns;	
+	    }
+	    
+	    public columnConfig getColumn(String name) {
+	    	return mColumns.get(name);
+	    }
+	}
+
+	public static final String COLUMN_TYPE_VARCHAR = "varchar";
+	public static final String COLUMN_TYPE_MEDIUMINT = "mediumint";
+	public static final String COLUMN_TYPE_TINYINT = "tinyint";
+	public static final String COLUMN_TYPE_SMALLINT = "smallint";
+	public static final String COLUMN_TYPE_DECIMAL = "decimal";
+	public static final String COLUMN_TYPE_INT = "int";
+	public class columnConfig {
+		final String mColumnName;
+		final String mType;
+
+		public columnConfig(String name, String type) {
+			mColumnName = name;
+			mType = type;
+		}
+	}
+}

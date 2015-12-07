@@ -1,0 +1,196 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+    -->
+    <style name="AppBaseTheme" parent="android:Theme.Light">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+    </style>
+
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+                
+    <style name="navi_image_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:layout_marginTop">10dp</item>
+    </style>
+    <style name="navi_label_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:textColor">@color/navi_label_normal</item>
+        <item name="android:textSize">12sp</item>   
+        <item name="android:singleLine">true</item>  
+        <item name="android:ellipsize">end</item>  
+        <item name="android:layout_marginTop">5dp</item>
+    </style>
+    <style name="main_category_text">
+        <item name="android:textColor">@color/main_category_text</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+    <style name="products_top_title_style">
+        <item name="android:textColor">@color/products_top_title</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="products_item_name">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="products_item_size">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/products_item_size</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="products_item_promote">
+        <item name="android:textColor">@color/products_item_promote</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="products_item_rmb_label">
+        <item name="android:textColor">@color/products_item_rmb_label</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="products_item_price_promote">
+        <item name="android:textColor">@color/products_item_rmb_label</item>
+        <item name="android:textSize">26sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="products_item_price_market">
+        <item name="android:textColor">@color/products_item_price_market</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    
+    <style name="shoppingcart_title">
+        <item name="android:textColor">@color/shoppingcart_title</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+    
+    <style name="shoppingcart_total_label">
+        <item name="android:textColor">@color/shoppingcart_total_label</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    <style name="confirm_order_text_label">
+        <item name="android:textColor">@color/products_item_size</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:singleLine">true</item>
+    </style>
+    
+    <style name="confirm_order_arrow">
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginRight">20dp</item>
+        <item name="android:src">@drawable/arrow_listpage</item>
+    </style>
+    
+    <style name="confirm_order_line">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0.5dp</item>
+        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:layout_marginRight">5dp</item>
+        <item name="android:background">@color/products_item_size</item>
+    </style>
+    <style name="login_line" parent="confirm_order_line">
+        <item name="android:layout_marginLeft">0dp</item>
+        <item name="android:layout_marginRight">0dp</item>
+        <item name="android:background">@color/products_item_size</item>
+    </style>
+    <style name="order_freight">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/products_item_size</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    
+    <style name="order_confirm_item_image">
+        <item name="android:layout_width">80dp</item>
+        <item name="android:layout_height">80dp</item>
+    </style>
+    <style name="label_address_edit" parent="@style/confirm_order_text_label">
+        <item name="android:layout_width">90sp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_marginLeft">18dp</item>
+    </style>
+    <style name="label_item_label" parent="@style/confirm_order_text_label">
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingLeft">18dp</item>
+        
+    </style>
+    <style name="address_edit_arrow" parent="@style/confirm_order_arrow">
+        <item name="android:layout_marginRight">10dp</item>
+    </style>
+    
+    
+    <style name="btn_green">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/btn_green</item>
+    </style>
+    <style name="btn_white">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/btn_white</item>
+    </style>
+    <style name="btn_view_goods">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@null</item>
+        <item name="android:src">@drawable/view_goods</item>
+        <item name="android:layout_marginTop">10dp</item>
+    </style>
+    
+    <style name="tv_address_summery">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/main_category_text</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="iv_user_logo">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:src">@drawable/user_logo</item>
+        <item name="android:layout_centerVertical">true</item>
+    </style>
+    <style name="tv_user_info">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:paddingTop">15dp</item>
+        <item name="android:paddingBottom">15dp</item>
+    </style>
+    <style name="center_line">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0.5dp</item>
+        <item name="android:background">@color/products_item_price_market</item>
+    </style>
+    <style name="text_input">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/bg_input</item>
+        <item name="android:layout_marginLeft">18dp</item>
+        <item name="android:layout_marginRight">18dp</item>
+    </style>
+    
+    <style name="AlertDialogCustom" 
+        parent="@android:style/DeviceDefault.Light.ButtonBar.AlertDialog"> 
+        <item name="android:height">200dp</item>
+    </style> 
+</resources>

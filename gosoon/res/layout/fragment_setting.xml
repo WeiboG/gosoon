@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bg_top_login" >
+    <include
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+        layout="@layout/top_detail" />
+    <View style="@style/login_line"
+        android:layout_marginTop="20dp" />
+    <RelativeLayout
+        style="@style/btn_white"
+        android:id="@+id/ly_clear_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        
+         >
+
+         <TextView 
+             style="@style/label_address_edit"
+             android:text="@string/clear_data"
+             />
+    </RelativeLayout>
+    <View style="@style/login_line" />
+    <RelativeLayout
+        style="@style/btn_white"
+        android:id="@+id/ly_system_out"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+         >
+
+         <TextView 
+             style="@style/label_address_edit"
+             android:text="@string/system_out"
+             />
+    </RelativeLayout>
+    <View style="@style/login_line" />
+</LinearLayout>

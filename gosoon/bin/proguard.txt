@@ -1,0 +1,103 @@
+# view res/layout/products_detail.xml #generated:17
+-keep class android.support.v4.view.ViewPager { <init>(...); }
+
+# view res/layout/notification_custom_builder.xml #generated:48
+-keep class android.widget.DateTimeView { <init>(...); }
+
+# view AndroidManifest.xml #generated:112
+-keep class com.alipay.sdk.app.H5PayActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:185
+-keep class com.baidu.android.pushservice.CommandService { <init>(...); }
+
+# view AndroidManifest.xml #generated:176
+-keep class com.baidu.android.pushservice.PushService { <init>(...); }
+
+# view AndroidManifest.xml #generated:135
+-keep class com.baidu.android.pushservice.PushServiceReceiver { <init>(...); }
+
+# view AndroidManifest.xml #generated:151
+-keep class com.baidu.android.pushservice.RegistrationReceiver { <init>(...); }
+
+# view AndroidManifest.xml #generated:107
+-keep class com.gosoon.AddressEditActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:165
+-keep class com.gosoon.BaiduPushReceiver { <init>(...); }
+
+# view AndroidManifest.xml #generated:102
+-keep class com.gosoon.BonusActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:81
+-keep class com.gosoon.IntegralActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:45
+-keep class com.gosoon.LoginActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:39
+-keep class com.gosoon.MainActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:33
+-keep class com.gosoon.MyApplication { <init>(...); }
+
+# view AndroidManifest.xml #generated:123
+-keep class com.gosoon.MyCollectionActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:119
+-keep class com.gosoon.MyOrderActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:75
+-keep class com.gosoon.OrderResultActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:127
+-keep class com.gosoon.RechargeActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:50
+-keep class com.gosoon.RegisterActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:86
+-keep class com.gosoon.ResetPasswordActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:91
+-keep class com.gosoon.WelcomeActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:55
+-keep class com.gosoon.addressListActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:60
+-keep class com.gosoon.goodsDetailActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:65
+-keep class com.gosoon.goodslistActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:70
+-keep class com.gosoon.settleAccountsActivity { <init>(...); }
+
+# view res/layout/activity_main.xml #generated:76
+-keep class com.gosoon.view.CircleView { <init>(...); }
+
+# view res/layout/products_detail.xml #generated:6
+-keep class com.gosoon.view.MyScrollerView { <init>(...); }
+
+# view res/layout/item_shoppingcart.xml #generated:117
+# view res/layout/products_detail.xml #generated:156
+-keep class com.gosoon.view.NumberSelectButton { <init>(...); }
+
+# view res/layout/details_imageshow_item.xml #generated:7
+-keep class com.gosoon.view.TouchImageView { <init>(...); }
+
+# onClick res/layout/activity_login.xml #generated:65
+# onClick res/layout/activity_login.xml #generated:73
+# onClick res/layout/activity_login.xml #generated:87
+# onClick res/layout/activity_order_result.xml #generated:46
+# onClick res/layout/activity_register.xml #generated:101
+# onClick res/layout/activity_register.xml #generated:89
+# onClick res/layout/fragment_address_edit.xml #generated:193
+# onClick res/layout/no_address.xml #generated:14
+# onClick res/layout/products_detail.xml #generated:228
+# onClick res/layout/top_detail.xml #generated:42
+-keepclassmembers class * { *** onClick(...); }
+
+# onClick res/layout/activity_recharge.xml #generated:21
+-keepclassmembers class * { *** recharge(...); }
+

@@ -1,0 +1,71 @@
+package com.gosoon.adapter;
+
+import java.util.ArrayList;
+
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.gosoon.R;
+import com.gosoon.entity.CategoryEntity;
+import com.gosoon.fragment.baseFragment;
+
+public class CategoryAdapter extends BaseListAdapter<CategoryEntity> {
+
+	public CategoryAdapter(baseFragment fragment,
+			ArrayList<CategoryEntity> category) {
+		super(fragment, category);
+	}
+
+	@Override
+	public View getView(int position, View convertView, ViewGroup arg2) {
+		ViewHolder viewHolder = null;
+		if (convertView == null){
+			convertView = activity.getLayoutInflater().inflate(R.layout.item_category, null);
+			viewHolder = new ViewHolder(convertView);
+			convertView.setTag(viewHolder);
+		} else {
+			viewHolder = (ViewHolder) convertView.getTag();
+		}
+		CategoryEntity category = getItem(position);
+		
+		switch (position%5) {
+		case 0:
+			viewHolder.mLogo.setImageResource(R.drawable.logo_category_fruits_imported);
+			break;
+		case 1:
+			viewHolder.mLogo.setImageResource(R.drawable.logo_category_fruits);
+			break;
+		case 2:
+			viewHolder.mLogo.setImageResource(R.drawable.logo_category_seafood);
+			break;
+		case 3:
+			viewHolder.mLogo.setImageResource(R.drawable.logo_category_juice);
+			break;
+		case 4:
+			viewHolder.mLogo.setImageResource(R.drawable.logo_category_seafood_imported);
+			break;
+
+		default:
+			break;
+		}
+		
+		viewHolder.mName.setText(category.getValueAsString(CategoryEntity.CATEGORY_NAME, ""));
+		viewHolder.mDesc.setText(category.getDesc());
+		return convertView;
+	}
+
+	protected class ViewHolder {
+
+		public ImageView mLogo;
+		public TextView mName;
+		public TextView mDesc;
+
+		public ViewHolder(View view) {
+			mLogo = (ImageView) view.findViewById(R.id.iv_category_logo);
+			mName = (TextView) view.findViewById(R.id.tv_category_name);
+			mDesc = (TextView) view.findViewById(R.id.tv_category_desc);
+		}
+	}
+}

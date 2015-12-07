@@ -1,0 +1,284 @@
+package com.gosoon;
+
+import java.util.ArrayList;
+
+import org.json.JSONObject;
+
+import com.gosoon.R;
+import com.gosoon.account.MyAccount;
+import com.gosoon.adapter.AddressAdapter;
+import com.gosoon.entity.RegionEntity;
+import com.gosoon.entity.UserAddressEntity;
+import com.gosoon.entity.UserEntity;
+import com.gosoon.util.AlertDialogConfig;
+import com.gosoon.util.MyRequest;
+import com.gosoon.util.MyRequestCallback;
+import com.gosoon.util.MyResult;
+import com.gosoon.util.ProgressDialogConfig;
+import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
+
+public class addressListActivity extends BaseActivity implements
+		OnItemClickListener {
+
+	public static final String PARAM_SELECTED_ITEM = "selected_item";
+	public static final String PARAM_SELECTED_ADDRESS_ID = "address_id";
+	
+	public static final int REQUEST_ADD_ADDRESS = 0;
+
+	ListView mAddressListView;
+	static View ly_no_address, btn_add_address;
+	AddressAdapter mAddressAdapter;
+
+	String mAddressId = null;
+	
+	static Activity INSTANCE;
+	static ArrayList<UserAddressEntity> mUserAddress = null;
+	
+	boolean fromUser;
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.fragment_address_list);
+		getIntentData();
+		setTitle(getResources().getString(fromUser ? R.string.user_my_address_title : R.string.select_address));
+		initDataFromIntent();
+		hideRightText(false);
+		
+		INSTANCE = this;
+		
+		mAddressListView = (ListView) findViewById(R.id.lv_address);
+		mAddressListView.setOnItemClickListener(this);
+		ly_no_address = findViewById(R.id.ly_no_address);
+		btn_add_address = findViewById(R.id.btn_add_address);
+		getDataFromNet();
+		
+		btn_add_address.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				startActivityForResult(new Intent(addressListActivity.this, AddressEditActivity.class), REQUEST_ADD_ADDRESS);
+			}
+		});
+	}
+	@Override
+	protected void getDataFromNet() {
+		super.getDataFromNet();
+		if(isNetworkConnected()){
+			getAddressListFromNet(getUserAddressFromNetCallback, false);
+		}
+	}
+	private void getIntentData(){
+		fromUser = getIntent().getBooleanExtra("fromUser", false);
+		Log.e("74", fromUser+"");
+		Log.e("74", "getIntentData");
+	}
+
+	MyRequestCallback getRegionsCallback = new MyRequestCallback() {
+		@Override
+		public void onSuccess(MyResult result) {
+			for (int i = 0; i < mUserAddress.size(); i++) {
+				UserAddressEntity entity = mUserAddress.get(i);
+				
+				RegionEntity province = RegionEntity.getRegions().get(0).getChildByRegionId(entity.getValueAsString(UserAddressEntity.PROVINCE, ""));
+				if(province != null){
+					String strProvince = province.getValueAsString(RegionEntity.REGION_NAME, "");
+					entity.setValueAsString(UserAddressEntity.PROVINCE_NAME, strProvince);
+					
+					RegionEntity city = province.getChildByRegionId(entity.getValueAsString(UserAddressEntity.CITY, ""));
+					String strCity = city.getValueAsString(RegionEntity.REGION_NAME, "");
+					entity.setValueAsString(UserAddressEntity.CITY_NAME, strCity);
+					
+					RegionEntity district = province.getChildByRegionId(entity.getValueAsString(UserAddressEntity.DISTRICT, ""));
+					String strDistrict = district.getValueAsString(RegionEntity.REGION_NAME, "");
+					entity.setValueAsString(UserAddressEntity.DISTRICT_NAME, strDistrict);
+				}
+			}
+			updateUserAddressList();
+		};
+		@Override
+		public void onFailure(MyResult result) {
+			
+		};
+	};
+	@Override
+	protected void onResume(){
+		View button = findViewById(R.id.tv_rignt);
+		if (button != null) {
+			button.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					startActivityForResult(new Intent(addressListActivity.this, AddressEditActivity.class), REQUEST_ADD_ADDRESS);
+				}
+			});
+		}
+		super.onResume();
+		
+	}
+
+	protected void initDataFromIntent() {
+		
+		Intent intent = getIntent();
+		if (intent.hasExtra(PARAM_SELECTED_ADDRESS_ID)) {
+			mAddressId = intent.getStringExtra(PARAM_SELECTED_ADDRESS_ID);
+			Log.e("124", "initDataFromIntent");
+		}
+	}
+
+	protected void updateUserAddressList() {
+		mUserAddress = getUserAddress();
+		if (mUserAddress != null) {
+			mAddressAdapter = new AddressAdapter(this, mUserAddress);
+			mAddressAdapter.fromUser = this.fromUser;
+			mAddressAdapter.setSelectedId(mAddressId);
+			mAddressListView.setAdapter(mAddressAdapter);
+			ly_no_address.setVisibility(View.GONE);
+		}
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> arg0, View arg1, int position,
+			long arg3) {
+		Intent intent = new Intent(addressListActivity.this, AddressEditActivity.class);
+		intent.putExtra(AddressEditActivity.EXTRA_ADD, false);
+		intent.putExtra(AddressEditActivity.EXTRA_ENTITY, mAddressAdapter.getItem(position).toString());
+		startActivityForResult(intent, REQUEST_ADD_ADDRESS);
+	}
+
+	MyRequestCallback getUserAddressFromNetCallback = new MyRequestCallback() {
+
+		@Override
+		public void onSuccess(MyResult result) {
+			super.onSuccess(result);
+			RegionEntity.getRegionsFromNet(getRegionsCallback);
+		};
+	};
+
+	
+	static ArrayList<MyRequestCallback> mUserAddressCallbacks = new ArrayList<MyRequestCallback>();
+
+	public static void logout() {
+//		mUserAddress  = null;
+//		mUserAddressCallbacks = null;
+	}
+	
+	public static ArrayList<UserAddressEntity> getUserAddress() {
+		return mUserAddress;
+	}
+
+	public static void getAddressListFromNet(MyRequestCallback callback, boolean reRead){
+		if (mUserAddress == null || reRead){
+			Log.e("180", "getAddressListFromNet");
+			MyAccount.getUserFromNet(getUserCallback, false);
+			if(mUserAddressCallbacks != null && callback != null){
+				mUserAddressCallbacks.add(callback);
+			}
+		} else {
+			callback.onSuccess(getAddressListCallback.getMyResult());
+			
+		}
+	}
+
+	public static void doGetAddressList() {
+		MyRequest myrequest = new MyRequest(HttpMethod.POST,
+				MyRequest.ACTION_SQL);
+		// myrequest.setSql("Select * from gsw_user_address");
+		myrequest.setSql("SELECT * from gsw_user_address where user_id="
+				+ MyAccount.getUser().getValueAsString(UserEntity.USER_ID, ""));
+		myrequest.setProcessDialogConfig(new ProgressDialogConfig(INSTANCE, MainActivity.ALERTDIALOG_ID_LOGIN));
+		myrequest.setAlertDialogConfig(new AlertDialogConfig(INSTANCE, MainActivity.ALERTDIALOG_ID_LOGIN));
+		myrequest.send(getAddressListCallback);
+	}
+
+	static MyRequestCallback getAddressListCallback = new MyRequestCallback() {
+
+		@Override
+		public void onSuccess(MyResult result) {
+			mUserAddress = new ArrayList<UserAddressEntity>();
+			ArrayList<JSONObject> jsons = result.getData();
+			
+			for (JSONObject json : jsons) {
+				mUserAddress.add(new UserAddressEntity(json));
+			}
+			for (MyRequestCallback callback : mUserAddressCallbacks) {
+				callback.onSuccess(result);
+			}
+//			mUserAddressCallbacks.clear();
+			if(mUserAddress.size() > 0){
+				ly_no_address.setVisibility(View.GONE);
+			}else{
+				ly_no_address.setVisibility(View.VISIBLE);
+			}
+		};
+
+		@Override
+		public void onFailure(MyResult result) {
+			for (MyRequestCallback callback : mUserAddressCallbacks) {
+				callback.onFailure(result);
+			}
+			mUserAddressCallbacks.clear();
+		};
+	};
+	
+	protected void onDestroy(){
+		if(mUserAddress!=null){
+			mUserAddress.clear();
+			mUserAddress = null;
+		}
+		super.onDestroy();
+	};
+	static MyRequestCallback getUserCallback = new MyRequestCallback() {
+
+		@Override
+		public void onSuccess(MyResult result) {
+			doGetAddressList();
+		};
+
+		@Override
+		public void onFailure(MyResult result) {
+			for (MyRequestCallback callback : mUserAddressCallbacks) {
+				callback.onFailure(result);
+			}
+			mUserAddressCallbacks.clear();
+		};
+	};
+	public void onClick(View v) {
+		super.onClick(v);
+		switch (v.getId()) {
+		case R.id.btn_add_address:
+			startActivityForResult(new Intent(addressListActivity.this, AddressEditActivity.class), REQUEST_ADD_ADDRESS);
+			break;
+
+		default:
+			break;
+		}
+	};
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode == Activity.RESULT_OK) {
+			if (requestCode == REQUEST_ADD_ADDRESS) {
+				getAddressListFromNet(getUserAddressFromNetCallback, true);
+			}
+		}
+	}
+	@Override
+	public void onBackPressed() {
+		Intent intent = new Intent();
+		if(mAddressAdapter != null && mUserAddress.size() > 0){
+			intent.putExtra(PARAM_SELECTED_ITEM, mAddressAdapter.getItem(AddressAdapter.checkItem)
+					.toString());
+			setResult(Activity.RESULT_OK, intent);
+		}
+		finish();
+	}
+}

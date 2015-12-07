@@ -1,0 +1,914 @@
+package com.gosoon;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+
+import org.json.JSONException;
+
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.text.InputType;
+import android.text.TextUtils;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import com.alipay.sdk.app.PayTask;
+import com.alipay.sdk.pay.Result;
+import com.alipay.sdk.pay.SignUtils;
+import com.gosoon.account.MyAccount;
+import com.gosoon.adapter.OrderGoodsAdapter;
+import com.gosoon.entity.CartEntity;
+import com.gosoon.entity.GoodsEntity;
+import com.gosoon.entity.OrderGoodsEntity;
+import com.gosoon.entity.OrderInfoEntity;
+import com.gosoon.entity.PaymentEntity;
+import com.gosoon.entity.ShippingEntity;
+import com.gosoon.entity.UserAddressEntity;
+import com.gosoon.entity.UserEntity;
+import com.gosoon.fragment.shoppingCartFragment;
+import com.gosoon.util.AlertDialogConfig;
+import com.gosoon.util.MyRequest;
+import com.gosoon.util.MyRequestCallback;
+import com.gosoon.util.MyResult;
+import com.gosoon.util.ProgressDialogConfig;
+import com.gosoon.util.StringUtil;
+import com.gosoon.util.ToastUtil;
+import com.gosoon.util.programSetting;
+import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
+import com.ta.utdid2.android.utils.StringUtils;
+
+public class settleAccountsActivity extends BaseActivity implements
+		OnClickListener {
+
+	public static final String PARAM_ORDER_INFO = "param_order_info";
+
+	static final int REQUEST_CODE_FOR_USER_ADDRESS = 1;
+
+	UserAddressEntity mUserAddress = null;
+	PaymentEntity mPaymentEntity = null;
+	ShippingEntity mShippingEntity = null;
+	OrderInfoEntity mOrderInfo = null;
+	ArrayList<OrderGoodsEntity> mOrderGoods = null;
+	ArrayList<OrderGoodsEntity> mSuccessOrderGoods = new ArrayList<OrderGoodsEntity>();
+
+	TextView tv_user_address;
+	TextView tv_shipping;
+	TextView tv_payment;
+	TextView tv_pay_by_balance;
+	TextView tv_order_total_amount, shopping_fee;
+	View btn_pay, btn_cancel;
+	LinearLayout ll_order_goods;
+//	CheckBox cb_shoppingcart_check_all;
+	TextView tv_address_label, tv_deliver_label, tv_pay_label, tv_pay_by_balance_label, has_pay, should_pay;
+	View iv_arrow1, iv_arrow2, iv_arrow3, iv_arrow4, ly_has_pay, ly_should_pay;
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.fragment_settle_account);
+		initDataFromIntent();
+
+		tv_user_address = (TextView) findViewById(R.id.tv_user_address);
+		tv_shipping = (TextView) findViewById(R.id.tv_shipping);
+		tv_payment = (TextView) findViewById(R.id.tv_payment);
+		tv_pay_by_balance = (TextView) findViewById(R.id.tv_pay_by_balance);
+		shopping_fee = (TextView) findViewById(R.id.shopping_fee);
+		tv_order_total_amount = (TextView) findViewById(R.id.tv_order_total_amount);
+		btn_pay = findViewById(R.id.btn_pay);
+		btn_cancel = findViewById(R.id.btn_cancel);
+		ll_order_goods = (LinearLayout) findViewById(R.id.ll_order_goods);
+//		cb_shoppingcart_check_all = (CheckBox) findViewById(R.id.cb_shoppingcart_check_all);
+		ly_has_pay = findViewById(R.id.ly_has_pay);
+		ly_should_pay = findViewById(R.id.ly_should_pay);
+		has_pay = (TextView) findViewById(R.id.has_pay);
+		should_pay = (TextView) findViewById(R.id.should_pay);
+		
+		tv_address_label = (TextView) findViewById(R.id.tv_address_label);
+		tv_deliver_label = (TextView) findViewById(R.id.tv_deliver_label);
+		tv_pay_label = (TextView) findViewById(R.id.tv_pay_label);
+		tv_pay_by_balance_label = (TextView) findViewById(R.id.tv_pay_by_balance_label);
+		iv_arrow1 = findViewById(R.id.iv_arrow1);
+		iv_arrow2 = findViewById(R.id.iv_arrow2);
+		iv_arrow3 = findViewById(R.id.iv_arrow3);
+		iv_arrow4 = findViewById(R.id.iv_arrow4);
+		
+		btn_pay.setOnClickListener(this);
+
+		updateView();
+	}
+
+	protected void updateView() {
+		if (mOrderInfo.isTempOrder()) {
+			findViewById(R.id.ly_edit_address).setOnClickListener(this);
+			findViewById(R.id.ly_select_deliver_type).setOnClickListener(this);
+			findViewById(R.id.ly_select_pay_type).setOnClickListener(this);
+			findViewById(R.id.ly_pay_by_balance).setOnClickListener(this);
+			setTitle(getResources().getString(R.string.confirm_order));
+		} else {
+			findViewById(R.id.ly_edit_address).setOnClickListener(null);
+			findViewById(R.id.ly_select_deliver_type).setOnClickListener(null);
+			findViewById(R.id.ly_select_pay_type).setOnClickListener(null);
+			findViewById(R.id.ly_pay_by_balance).setOnClickListener(null);
+			tv_address_label.setText("送货地址：");
+			tv_deliver_label.setText("配送方式：");
+			tv_pay_label.setText("支付方式：");
+			tv_pay_by_balance_label.setText("余额支付：");
+			
+			iv_arrow1.setVisibility(View.GONE);
+			iv_arrow2.setVisibility(View.GONE);
+			iv_arrow3.setVisibility(View.GONE);
+			iv_arrow4.setVisibility(View.GONE);
+			if(mOrderInfo.getValueAsDouble(OrderInfoEntity.SURPLUS, 0) == 0){
+				findViewById(R.id.ly_pay_by_balance).setVisibility(View.GONE);
+			}else{
+				updateSurplus();
+			}
+			
+//			cb_shoppingcart_check_all.setVisibility(View.GONE);
+			btn_pay.setVisibility(View.GONE);
+			
+			String payName = mOrderInfo.getValueAsString(OrderInfoEntity.PAY_NAME, "");
+			int payStatus = mOrderInfo.getValueAsInt(OrderInfoEntity.PAY_STATUS, -1);
+			int orderStatus = mOrderInfo.getValueAsInt(OrderInfoEntity.ORDER_STATUS, -1);
+			Double surplus = mOrderInfo.getValueAsDouble(OrderInfoEntity.SURPLUS, -1d);
+			//可以付款: !货到付款 && 未付款 && (未确认 || 已确认)
+			if(!"货到付款".equals(payName) && payStatus == 0 && (orderStatus == 0 || orderStatus == 1)){
+				btn_pay.setVisibility(View.VISIBLE);
+			}else{
+				btn_pay.setVisibility(View.GONE);
+			}
+			
+			//可以取消: (未确认 && 未付款) || 未使用余额支付的
+			if(orderStatus == 0 && payStatus == 0 && surplus == 0){
+				btn_cancel.setVisibility(View.VISIBLE);
+				btn_cancel.setOnClickListener(this);
+			}
+			
+			//已付，应付
+			ly_has_pay.setVisibility(View.VISIBLE);
+			ly_should_pay.setVisibility(View.VISIBLE);
+			should_pay.setText(mOrderInfo.getValueAsString(
+					OrderInfoEntity.ORDER_AMOUNT, ""));
+			has_pay.setText(mOrderInfo.getValueAsString(OrderInfoEntity.SURPLUS, "0.0"));
+			
+			
+			setTitle("订单详情");
+		}
+		updateAddress();
+		updateShipping();
+		updatePayment();
+		tv_order_total_amount.setText(mOrderInfo.getValueAsString(
+				OrderInfoEntity.GOODS_AMOUNT, ""));
+		shopping_fee.setText(mOrderInfo.getValueAsString(
+				OrderInfoEntity.SHIPPING_FEE, ""));
+
+		ll_order_goods.removeAllViews();
+		if (mOrderGoods != null) {
+			OrderGoodsAdapter goodsAdapter = new OrderGoodsAdapter(this,
+					mOrderGoods);
+			for (int i = 0; i < goodsAdapter.getCount(); i++) {
+				ll_order_goods.addView(goodsAdapter.getView(i, null, null));
+			}
+		}
+	}
+	protected void updateSurplus() {
+		tv_pay_by_balance.setText(mOrderInfo.getValueAsString(OrderInfoEntity.SURPLUS, "0.0"));
+	}
+	protected void updateAddress() {
+		tv_user_address.setText(mOrderInfo.getValueAsString(
+				OrderInfoEntity.ADDRESS,
+				getResources().getString(R.string.label_pls_input)));
+	}
+
+	protected void updateShipping() {
+		tv_shipping.setText(mOrderInfo.getValueAsString(
+				OrderInfoEntity.SHIPPING_NAME,
+				getResources().getString(R.string.label_pls_input)));
+		if("客户自提".equals(mOrderInfo.getValueAsString(OrderInfoEntity.SHIPPING_NAME, ""))
+				&& mOrderInfo.getValueAsDouble(OrderInfoEntity.SHIPPING_FEE, 0) == 6){
+			mOrderInfo.setValueAsString(OrderInfoEntity.SHIPPING_FEE,
+					0.00 + "");
+			mOrderInfo.setValueAsString(OrderInfoEntity.ORDER_AMOUNT,
+					(mOrderInfo.getValueAsDouble(OrderInfoEntity.ORDER_AMOUNT, 0) - 6 + "") + "");
+			shopping_fee.setText("0");
+		}else if(!"客户自提".equals(mOrderInfo.getValueAsString(OrderInfoEntity.SHIPPING_NAME, ""))
+				&& mOrderInfo.getValueAsDouble(OrderInfoEntity.GOODS_AMOUNT, 0) < 50
+				&& mOrderInfo.getValueAsDouble(OrderInfoEntity.SHIPPING_FEE, 0) == 0){
+			mOrderInfo.setValueAsString(OrderInfoEntity.SHIPPING_FEE,
+					6.00 + "");
+			mOrderInfo.setValueAsString(OrderInfoEntity.ORDER_AMOUNT,
+					(mOrderInfo.getValueAsDouble(OrderInfoEntity.ORDER_AMOUNT, 0) + 6 + "") + "");
+			shopping_fee.setText("6");
+		}
+	}
+
+	protected void updatePayment() {
+		tv_payment.setText(mOrderInfo.getValueAsString(
+				OrderInfoEntity.PAY_NAME,
+				getResources().getString(R.string.label_pls_input)));
+	}
+
+	protected void initDataFromIntent() {
+		Intent intent = getIntent();
+		if (intent.hasExtra(PARAM_ORDER_INFO)) {
+			mOrderInfo = new OrderInfoEntity();
+			mOrderInfo.fromString(intent.getStringExtra(PARAM_ORDER_INFO));
+			mOrderGoods = mOrderInfo.getOrderGoods();
+		} else {
+			mOrderGoods = new ArrayList<OrderGoodsEntity>();
+			ArrayList<CartEntity> carts = shoppingCartFragment
+					.getCheckedCartEntitys();
+			double goodsAmount = 0;
+			double shippingFee = 0;
+			for (CartEntity cart : carts) {
+				OrderGoodsEntity orderGoodsEntity = new OrderGoodsEntity();
+				if (!orderGoodsEntity.setCart(cart)) {
+					// TODO alert user
+					continue;
+				}
+				mOrderGoods.add(orderGoodsEntity);
+				double price = Double.parseDouble(cart.getGoodsEntity()
+						.getValueAsString(GoodsEntity.SHOP_PRICE, "0.00"));
+				goodsAmount += (cart.getValueAsInt(CartEntity.CART_AMOUNT, 1) * price);
+			}
+			if (goodsAmount < programSetting.getFreeShippingLimit()) {
+				shippingFee = programSetting.getShippingFee();
+			} else {
+				shippingFee = 0;
+			}
+
+			mOrderInfo = new OrderInfoEntity();
+			mOrderInfo.initOrderInfo();
+			mOrderInfo.setValueAsString(OrderInfoEntity.GOODS_AMOUNT,
+					goodsAmount + "");
+			mOrderInfo.setValueAsString(OrderInfoEntity.SHIPPING_FEE,
+					shippingFee + "");
+			mOrderInfo.setValueAsString(OrderInfoEntity.ORDER_AMOUNT,
+					(goodsAmount + shippingFee) + "");
+			mOrderInfo.setValueAsString(OrderInfoEntity.MONEY_PAID, "0");
+			mOrderInfo.setValueAsString(OrderInfoEntity.DISCOUNT, "0");
+		}
+	}
+
+	@Override
+	public void onClick(View v) {
+		super.onClick(v);
+		switch (v.getId()) {
+		case R.id.ly_edit_address:
+			selectAddress();
+			break;
+		case R.id.ly_select_deliver_type:
+			selectShipping();
+			break;
+		case R.id.ly_select_pay_type:
+			selectPayment();
+			break;
+		case R.id.ly_pay_by_balance:
+			creatSurplusDialog();
+			break;
+		case R.id.btn_pay:
+			if (mOrderInfo.isTempOrder()) {
+				createOrder();
+			} else if(mOrderInfo.isPayByAlipay()) {
+				payByAlipay();
+			}
+			break;
+		case R.id.btn_cancel:
+			//取消订单
+			orderStatusCode = 2;
+			showConfirmAlert();
+			break;
+		default:
+			break;
+		}
+	}
+
+	protected void selectAddress() {
+		Intent intent = new Intent(this, addressListActivity.class);
+		if (mUserAddress != null) {
+			intent.putExtra(addressListActivity.PARAM_SELECTED_ADDRESS_ID,
+					mUserAddress.getValueAsString(UserAddressEntity.ADDRESS_ID,
+							null));
+		}
+		startActivityForResult(intent, REQUEST_CODE_FOR_USER_ADDRESS);
+	}
+
+	protected void selectPayment() {
+		PaymentEntity.getPaymentsFromNet(getPaymentFromNetCallback);
+	}
+
+	MyRequestCallback getPaymentFromNetCallback = new MyRequestCallback() {
+
+		@Override
+		public void onSuccess(MyResult result) {
+			super.onSuccess(result);
+			ArrayList<PaymentEntity> paymentEntities = PaymentEntity
+					.getPayments();
+			ArrayList<PaymentEntity> rightPaymentEntities = new ArrayList<PaymentEntity>();
+			for (PaymentEntity payment : paymentEntities) {
+				if ((payment.getValueAsString(PaymentEntity.IS_COD, "").equals(
+						"1") || payment.getValueAsString(
+						PaymentEntity.PAY_CODE, "").equals(
+						PaymentEntity.PAY_CODE_ALIPAY))
+						&& payment.getValueAsString(PaymentEntity.ENABLED, "1")
+								.equals("1")) {
+					rightPaymentEntities.add(payment);
+				}
+			}
+			creatPaymentDialog(rightPaymentEntities);
+		};
+	};
+
+	protected void selectShipping() {
+		ShippingEntity.getShippingsFromNet(getShippingFromNetCallback);
+	}
+
+	MyRequestCallback getShippingFromNetCallback = new MyRequestCallback() {
+
+		@Override
+		public void onSuccess(MyResult result) {
+			super.onSuccess(result);
+			ArrayList<ShippingEntity> shippingEntities = ShippingEntity
+					.getShippings();
+			creatShippingDialog(shippingEntities);
+		};
+	};
+	private void creatSurplusDialog(){
+		Builder dialog = new AlertDialog.Builder(this);
+		dialog.setMessage("当前余额：" + MyAccount.getUser().getValueAsString(UserEntity.USER_MONEY, "0.0") + "元");
+		final EditText editText = new EditText(this);
+		editText.setHint("请输入要使用的余额");
+		editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+		editText.setMaxEms(10);
+		dialog.setView(editText);
+		dialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int arg1) {
+				dialog.dismiss();
+			}
+		});
+		dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int arg1) {
+				String input = editText.getText().toString();
+				if(StringUtil.isEmpty(input)){
+					return;
+				}
+				double surplus = Double.parseDouble(input);
+				if(surplus < 0 
+						|| surplus > MyAccount.getUser().getValueAsDouble(UserEntity.USER_MONEY, 0)
+						|| surplus > mOrderInfo.getValueAsDouble(OrderInfoEntity.GOODS_AMOUNT, 0) + mOrderInfo.getValueAsDouble(OrderInfoEntity.SHIPPING_FEE, 0)){
+					ToastUtil.show(getApplicationContext(), "金额输入错误");
+					return;
+				}
+				mOrderInfo.setValueAsString(OrderInfoEntity.SURPLUS, surplus + "");
+				updateSurplus();
+				dialog.dismiss();
+			}
+		});
+		dialog.create().show();
+	}
+	/**
+	 * 弹出配送方式选择框
+	 * 
+	 * @param shippingEntities
+	 */
+	private void creatShippingDialog(
+			final ArrayList<ShippingEntity> shippingEntities) {
+		String[] items = new String[shippingEntities.size()];
+		for (int i = 0; i < shippingEntities.size(); i++) {
+			items[i] = shippingEntities.get(i).getValueAsString(
+					ShippingEntity.SHIPPING_NAME, "");
+		}
+
+		new AlertDialog.Builder(this).setTitle(R.string.title_deliver_type)
+				.setItems(items, new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+						mShippingEntity = shippingEntities.get(whichButton);
+						mOrderInfo.setShipping(mShippingEntity);
+						updateShipping();
+						dialog.dismiss();
+					}
+				}).create().show();
+	}
+
+	/**
+	 * 弹出付款方式选择框
+	 * 
+	 * @param shippingEntities
+	 */
+	private void creatPaymentDialog(
+			final ArrayList<PaymentEntity> paymentEntities) {
+		String[] items = new String[paymentEntities.size()];
+		for (int i = 0; i < paymentEntities.size(); i++) {
+			items[i] = paymentEntities.get(i).getValueAsString(
+					PaymentEntity.PAY_NAME, "");
+		}
+
+		new AlertDialog.Builder(this).setTitle(R.string.title_payment_type)
+				.setItems(items, new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+						mPaymentEntity = paymentEntities.get(whichButton);
+						mOrderInfo.setPayment(mPaymentEntity);
+						updatePayment();
+						dialog.dismiss();
+					}
+				}).create().show();
+	}
+
+	boolean createOrderHasFailed = false;
+
+	protected void createOrder() {
+		mProgressDialogConfig = new ProgressDialogConfig(
+				settleAccountsActivity.this,
+				MainActivity.PROCESSDIALOG_ID_CREATE_ORDER);
+		mProgressDialogConfig.cancelable = false;
+		showProcessDialog(mProgressDialogConfig);
+
+		btn_pay.setEnabled(false);
+		createOrderHasFailed = false;
+		mSuccessOrderGoods.clear();
+
+		AlertDialogConfig config = new AlertDialogConfig(this,
+				MainActivity.ALERTDIALOG_ID_CREATE_ORDER);
+		config.title = R.string.prompt;
+
+		if (mUserAddress == null) {
+			finishCreateOrder(false, "错误的送货地址");
+			return;
+		}
+		if (mShippingEntity == null) {
+			finishCreateOrder(false, "错误的配送方式");
+			return;
+		}
+		if (mPaymentEntity == null) {
+			finishCreateOrder(false, "错误的支付方式");
+			return;
+		}
+		doCreateOrder();
+	}
+
+	protected void doCreateOrder() {
+		double orderAmount = mOrderInfo.getValueAsDouble(OrderInfoEntity.ORDER_AMOUNT, Double.parseDouble(tv_order_total_amount.getText().toString()));
+		double orderSurplus = mOrderInfo.getValueAsDouble(OrderInfoEntity.SURPLUS, 0);
+		mOrderInfo.setValueAsString(OrderInfoEntity.ORDER_AMOUNT, orderAmount - orderSurplus + "");
+		MyRequest myrequest = new MyRequest(mOrderInfo.getTable().mTableName,
+				mOrderInfo.toString());
+		myrequest.send(createOrderInfoCallback);
+		
+	}
+
+	protected void getCreatedOrder() {
+		MyRequest myrequest = new MyRequest(HttpMethod.POST,
+				MyRequest.ACTION_SQL);
+		myrequest.setSql("SELECT * from gsw_order_info where user_id="
+				+ mOrderInfo.getValueAsString(OrderInfoEntity.USER_ID, "")
+				+ " AND order_sn="
+				+ mOrderInfo.getValueAsString(OrderInfoEntity.ORDER_SN, ""));
+		myrequest.send(getOrderInfoCallback);
+	}
+
+	protected void doCreateOrderGoods() {
+		for (final OrderGoodsEntity ordergoods : mOrderGoods) {
+			ordergoods.setOrderInfo(mOrderInfo);
+			MyRequest myrequest = new MyRequest(
+					ordergoods.getTable().mTableName, ordergoods.toString());
+			myrequest.send(new MyRequestCallback() {
+				@Override
+				public void onSuccess(MyResult result) {
+					super.onSuccess(result);
+					mSuccessOrderGoods.add(ordergoods);
+					finishCreateOrder(true, "");
+				}
+
+				@Override
+				public void onFailure(MyResult result) {
+					super.onFailure(result);
+					finishCreateOrder(false, result.mFailReason);
+				}
+			});
+		}
+	}
+
+	protected void delOrder() {
+		if (mOrderInfo != null) {
+			MyRequest myrequest = new MyRequest(HttpMethod.POST,
+					MyRequest.ACTION_SQL);
+			myrequest
+					.setSql("DELETE from gsw_order_info where user_id="
+							+ mOrderInfo.getValueAsString(
+									OrderInfoEntity.USER_ID, "")
+							+ " AND order_sn="
+							+ mOrderInfo.getValueAsString(
+									OrderInfoEntity.ORDER_SN, ""));
+			myrequest.send(null);
+
+			if (mOrderInfo.has(OrderInfoEntity.ORDER_ID)) {
+				myrequest = new MyRequest(HttpMethod.POST, MyRequest.ACTION_SQL);
+				myrequest.setSql("DELETE from gsw_order_goods where order_id="
+						+ mOrderInfo.getValueAsString(OrderInfoEntity.ORDER_ID,
+								""));
+				myrequest.send(null);
+			}
+		}
+	}
+
+	protected void finishCreateOrder(boolean success, String msg) {
+
+		if (success) {
+			if (mSuccessOrderGoods.size() == mOrderGoods.size()) {
+				shoppingCartFragment.delSelectedShoppingCart();
+				MyAccount.getUserFromNet(null, true);
+				if (mOrderInfo.isPayByAlipay() && mOrderInfo.getValueAsDouble(OrderInfoEntity.ORDER_AMOUNT, -1) != 0) {
+					payByAlipay();
+				} else {
+					finishProgressDialog(success, msg);
+				}
+			}
+		} else {
+			finishProgressDialog(success, msg);
+			createOrderHasFailed = true;
+			delOrder();
+			mOrderInfo.remove(OrderInfoEntity.ORDER_ID);
+		}
+	}
+
+	protected void finishProgressDialog(boolean success, String msg) {
+		if (mProgressDialogConfig != null) {
+			closeProcessDialog(mProgressDialogConfig);
+		}
+
+		if (success) {
+			startActivity(new Intent(this, OrderResultActivity.class));
+			finish();
+		} else {
+			AlertDialogConfig config = new AlertDialogConfig(this,
+					MainActivity.ALERTDIALOG_ID_CREATE_ORDER);
+			config.title = R.string.prompt;
+			config.message = msg;
+			showAlertDialog(config);
+		}
+		btn_pay.setEnabled(true);
+	}
+
+	ProgressDialogConfig mProgressDialogConfig = null;
+	MyRequestCallback createOrderInfoCallback = new MyRequestCallback() {
+
+		@Override
+		public void onFailure(MyResult result) {
+			finishCreateOrder(false, result.mFailReason);
+		};
+
+		@Override
+		public void onSuccess(MyResult result) {
+			super.onSuccess(result);
+			getCreatedOrder();
+			queryUserMoney();
+		};
+	};
+
+	MyRequestCallback getOrderInfoCallback = new MyRequestCallback() {
+
+		@Override
+		public void onFailure(MyResult result) {
+			finishCreateOrder(false, result.mFailReason);
+		};
+
+		@Override
+		public void onSuccess(MyResult result) {
+			super.onSuccess(result);
+			if (result.getFirstData() != null) {
+				mOrderInfo = new OrderInfoEntity(result.getFirstData());
+				doCreateOrderGoods();
+			} else {
+				finishCreateOrder(false, "订单查询失败");
+			}
+		};
+	};
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode == Activity.RESULT_OK) {
+			if (requestCode == REQUEST_CODE_FOR_USER_ADDRESS) {
+				String userAddress = data
+						.getStringExtra(addressListActivity.PARAM_SELECTED_ITEM);
+				mUserAddress = new UserAddressEntity(userAddress);
+				mOrderInfo.setUserAddress(mUserAddress);
+				updateAddress();
+			}
+		}
+	}
+
+	protected void payByAlipay() {
+		String orderInfo = getOrderInfo();
+		String sign = sign(orderInfo);
+		try {
+			// 仅需对sign 做URL编码
+			sign = URLEncoder.encode(sign, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		final String payInfo = orderInfo + "&sign=\"" + sign + "\"&"
+				+ getSignType();
+
+		Runnable payRunnable = new Runnable() {
+
+			@Override
+			public void run() {
+				// 构造PayTask 对象
+				PayTask alipay = new PayTask(settleAccountsActivity.this);
+				// 调用支付接口
+				String result = alipay.pay(payInfo);
+
+				Message msg = new Message();
+				msg.what = SDK_PAY_FLAG;
+				msg.obj = result;
+				mHandler.sendMessage(msg);
+			}
+		};
+
+		Thread payThread = new Thread(payRunnable);
+		payThread.start();
+	}
+
+	public String getOrderInfo() {
+		// 合作者身份ID
+		String orderInfo = "partner=" + "\"" + programSetting.getPartner()
+				+ "\"";
+
+		// 卖家支付宝账号
+		orderInfo += "&seller_id=" + "\"" + programSetting.getSeller() + "\"";
+
+		// 商户网站唯一订单号
+		orderInfo += "&out_trade_no=" + "\""
+				+ mOrderInfo.getValueAsString(OrderInfoEntity.ORDER_SN, "")
+				+ "\"";
+
+		// 商品名称
+		orderInfo += "&subject=" + "\"" + getGoodsTitle() + "\"";
+
+		// 商品详情
+		orderInfo += "&body=" + "\"" + getGoodsDetails() + "\"";
+
+		// 商品金额
+		orderInfo += "&total_fee=" + "\""
+				+ mOrderInfo.getValueAsString(OrderInfoEntity.ORDER_AMOUNT, "")
+				+ "\"";
+
+		// 服务器异步通知页面路径
+		// orderInfo += "&notify_url=" + "\"" +
+		// "http://notify.msp.hk/notify.htm"
+		// + "\"";
+
+		// 接口名称， 固定值
+		orderInfo += "&service=\"mobile.securitypay.pay\"";
+
+		// 支付类型， 固定值
+		orderInfo += "&payment_type=\"1\"";
+
+		// 参数编码， 固定值
+		orderInfo += "&_input_charset=\"utf-8\"";
+
+		// 设置未付款交易的超时时间
+		// 默认30分钟，一旦超时，该笔交易就会自动被关闭。
+		// 取值范围：1m～15d。
+		// m-分钟，h-小时，d-天，1c-当天（无论交易何时创建，都在0点关闭）。
+		// 该参数数值不接受小数点，如1.5h，可转换为90m。
+		orderInfo += "&it_b_pay=\"30m\"";
+
+		// 支付宝处理完请求后，当前页面跳转到商户指定页面的路径，可空
+		// orderInfo += "&return_url=\"m.alipay.com\"";
+
+		// 调用银行卡支付，需配置此参数，参与签名， 固定值
+		// orderInfo += "&paymethod=\"expressGateway\"";
+
+		return orderInfo;
+	}
+
+	protected String getGoodsTitle() {
+		String title = "";
+		for (OrderGoodsEntity orderGoods : mOrderGoods) {
+			if (!StringUtils.isEmpty(title)) {
+				title += "/";
+			}
+			title += orderGoods.getValueAsString(OrderGoodsEntity.GOODS_NAME,
+					"");
+		}
+		title = "菓速网购物-" + title;
+		return title;
+	}
+
+	protected String getGoodsDetails() {
+		String details = "";
+		for (OrderGoodsEntity orderGoods : mOrderGoods) {
+			if (!StringUtils.isEmpty(details)) {
+				details += "/";
+			}
+			details += orderGoods.getValueAsString(OrderGoodsEntity.GOODS_NAME,
+					"");
+			details += orderGoods.getValueAsString(
+					OrderGoodsEntity.GOODS_NUMBER, "");
+			details += "件";
+		}
+		return details;
+	}
+
+	/**
+	 * sign the order info. 对订单信息进行签名
+	 * 
+	 * @param content
+	 *            待签名订单信息
+	 */
+	public String sign(String content) {
+		return SignUtils.sign(content, programSetting.getRSAPrivate());
+	}
+
+	/**
+	 * get the sign type we use. 获取签名方式
+	 * 
+	 */
+	public String getSignType() {
+		return "sign_type=\"RSA\"";
+	}
+
+	private static final int SDK_PAY_FLAG = 1;
+	private Handler mHandler = new Handler() {
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			case SDK_PAY_FLAG: {
+				Result resultObj = new Result((String) msg.obj);
+				String resultStatus = resultObj.resultStatus;
+
+				// 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
+				if (TextUtils.equals(resultStatus, "9000")) {
+					alipaySuccess();
+				} else {
+					// 判断resultStatus 为非“9000”则代表可能支付失败
+					// “8000”
+					// 代表支付结果因为支付渠道原因或者系统原因还在等待支付结果确认，最终交易是否成功以服务端异步通知为准（小概率状态）
+					if (TextUtils.equals(resultStatus, "8000")) {
+						finishProgressDialog(false, "支付宝支付结果确认中");
+					} else {
+						finishProgressDialog(false, "支付宝支付失败");
+					}
+				}
+				break;
+			}
+			default:
+				break;
+			}
+		};
+	};
+
+	protected void alipaySuccess() {
+		OrderInfoEntity updateOrderInfo = new OrderInfoEntity();
+		updateOrderInfo.setValueAsString(OrderInfoEntity.ORDER_ID,
+				mOrderInfo.getValueAsString(OrderInfoEntity.ORDER_ID, ""));
+		updateOrderInfo.setValueAsString(OrderInfoEntity.PAY_STATUS, "2");
+		updateOrderInfo.setValueAsString(OrderInfoEntity.PAY_TIME,
+				System.currentTimeMillis() / 1000l + "");
+		updateOrderInfo.setValueAsString(OrderInfoEntity.MONEY_PAID,
+				mOrderInfo.getValueAsString(OrderInfoEntity.ORDER_AMOUNT, ""));
+		MyRequest myrequest = new MyRequest(HttpMethod.POST,
+				MyRequest.ACTION_SQL);
+		myrequest
+				.setSql(updateOrderInfo.getUpdateSql(OrderInfoEntity.ORDER_ID));
+		myrequest.send(updateOrderCallback);
+	}
+	/**
+	 * 更新订单状态
+	 * @param statusCode
+	 */
+	int orderStatusCode = -1;
+	protected void updateOrderStatus(){
+		OrderInfoEntity updateOrderInfo = new OrderInfoEntity();
+		updateOrderInfo.setValueAsString(OrderInfoEntity.ORDER_ID,
+				mOrderInfo.getValueAsString(OrderInfoEntity.ORDER_ID, ""));
+		updateOrderInfo.setValueAsString(OrderInfoEntity.ORDER_STATUS, "" + orderStatusCode);
+		MyRequest myrequest = new MyRequest(HttpMethod.POST,
+				MyRequest.ACTION_SQL);
+		myrequest
+				.setSql(updateOrderInfo.getUpdateSql(OrderInfoEntity.ORDER_ID));
+		
+		myrequest.setProcessDialogConfig(new ProgressDialogConfig(this, MainActivity.PROCESSDIALOG_ID_GETGOODSLIST));
+		myrequest.setAlertDialogConfig(new AlertDialogConfig(this, MainActivity.ALERTDIALOG_ID_GETGOODSLIST));
+		myrequest.send(updateOrderStatusCallback);
+	}
+
+	MyRequestCallback updateOrderStatusCallback = new MyRequestCallback() {
+		
+		@Override
+		public void onSuccess(MyResult result) {
+			switch (orderStatusCode) {
+			case 2:
+				ToastUtil.show(settleAccountsActivity.this, "订单已取消");
+				btn_cancel.setVisibility(View.GONE);
+				btn_pay.setVisibility(View.GONE);
+				mOrderInfo.setValueAsString(OrderInfoEntity.ORDER_STATUS, "2");
+				break;
+
+			default:
+				break;
+			}
+		};
+		
+		@Override
+		public void onFailure(MyResult result) {
+			finishProgressDialog(false, "更新订单失败，请联系网站人员更改订单状态");
+		};
+	};
+	MyRequestCallback updateOrderCallback = new MyRequestCallback() {
+
+		@Override
+		public void onSuccess(MyResult result) {
+			finishProgressDialog(true, "支付宝支付成功");
+		};
+
+		@Override
+		public void onFailure(MyResult result) {
+			finishProgressDialog(false, "更新订单失败，请联系网站人员更改订单状态");
+		};
+	};
+	private void showConfirmAlert() {
+		AlertDialogConfig alertDialogConfig = new AlertDialogConfig(this, MainActivity.ALERTDIALOG_ID_CONFIRM_CANCEL_ORDER);
+		switch (orderStatusCode) {
+		case 2:
+			alertDialogConfig.message = "确定要取消订单吗？";
+			break;
+
+		default:
+			break;
+		}
+		alertDialogConfig.title = R.string.prompt;
+		alertDialogConfig.showNegative = true;
+		alertDialogConfig.onPositiveListener = new android.content.DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface arg0, int arg1) {
+				switch (orderStatusCode) {
+				case 2:
+					updateOrderStatus();
+					break;
+
+				default:
+					break;
+				}
+			}
+		};
+		alertDialogConfig.show();
+	}
+	
+	private void queryUserMoney(){
+		MyRequest myrequest = new MyRequest(HttpMethod.POST,
+				MyRequest.ACTION_SQL);
+		myrequest.setSql("select user_money, user_id from gsw_users where user_id="
+				+ MyAccount.getUser().getValueAsString(UserEntity.USER_ID, ""));
+		myrequest.send(queryUserMoneyCallback);
+	}
+	MyRequestCallback queryUserMoneyCallback = new MyRequestCallback() {
+		@Override
+		public void onSuccess(MyResult result) {
+			if(result.getFirstData() != null){
+				try {
+					double userMoney = result.getFirstData().getDouble("user_money");
+					updateUserMoney(userMoney - mOrderInfo.getValueAsDouble(OrderInfoEntity.SURPLUS, 0) + "");
+				} catch (JSONException e) {
+					queryUserMoney();
+				}
+			}else{
+				queryUserMoney();
+			}
+		};
+		@Override
+		public void onFailure(MyResult result) {
+			queryUserMoney();
+		};
+		public void onCancelled(MyResult result) {
+			queryUserMoney();
+		};
+	};
+	String totalMoney = "";
+	private void updateUserMoney(String totalMoney){
+		this.totalMoney = totalMoney;
+		MyRequest myrequest = new MyRequest(HttpMethod.POST,
+				MyRequest.ACTION_SQL);
+		String sql = "UPDATE gsw_users SET user_money='" + totalMoney + "' WHERE user_id="
+				+ MyAccount.getUser().getValueAsString(UserEntity.USER_ID, "");
+		myrequest.setSql(sql);
+		myrequest.send(updateUserMoneyCallback);
+	}
+	MyRequestCallback updateUserMoneyCallback = new MyRequestCallback() {
+		@Override
+		public void onFailure(MyResult result) {
+			updateUserMoney(totalMoney);
+		};
+	};
+}

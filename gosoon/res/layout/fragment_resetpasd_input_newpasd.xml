@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+    
+    <View style="@style/login_line" />
+
+    <EditText
+        android:id="@+id/et_edit_password"
+        style="@style/confirm_order_text_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="18dp"
+        android:background="@null"
+        android:hint="@string/label_newpasd_hint"
+        android:inputType="textPassword" />
+        
+    
+    <View style="@style/confirm_order_line" />
+    <EditText
+        android:id="@+id/et_edit_conform_password"
+        style="@style/confirm_order_text_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="18dp"
+        android:background="@null"
+        android:hint="@string/label_newpasd_confirm_hint"
+        android:inputType="textPassword" />
+       
+    <View style="@style/confirm_order_line" />
+    <Button
+	    style="@style/btn_green"
+	    android:layout_marginLeft="5dp"
+	    android:layout_marginRight="5dp"
+	    android:id="@+id/btn_fragment_inputnewpasd_submit" 
+	    android:text="@string/submit" />
+          
+    
+
+</LinearLayout>

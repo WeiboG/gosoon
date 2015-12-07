@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_top_login"
+    android:orientation="vertical" >
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/top_detail" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+         />
+    
+	<View style="@style/login_line" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical" >
+
+		<TextView
+		    style="@style/products_item_name"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_gravity="center_horizontal"
+		    android:paddingTop="20dp"
+		    android:text="@string/thanks_for_buy"
+		    android:textSize="20sp" />
+
+		<TextView
+		    style="@style/products_item_name"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_gravity="center_horizontal"
+		    android:paddingBottom="20dp"
+		    android:paddingTop="10dp"
+		    android:text="@string/order_is_executing"
+		    android:textSize="20sp" />
+        
+    </LinearLayout>
+
+    <Button
+        style="@style/btn_green"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:onClick="onClick"
+        android:text="@string/back" />
+
+    <View style="@style/login_line" />
+
+</LinearLayout>

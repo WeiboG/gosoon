@@ -1,0 +1,135 @@
+package com.gosoon.util;
+
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
+import java.net.URLEncoder;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.message.BasicNameValuePair;
+
+public class MyQueryPlug {
+
+	private ArrayList<QueryCondition> mQueryConditions = new ArrayList<QueryCondition>();
+
+	public void setQueryCondition(String key, String value) {
+		QueryCondition condition = new QueryCondition(key, value);
+		mQueryConditions.add(condition);
+	}
+
+	public void setQueryCondition(String key, ArrayList<String> values){
+		QueryCondition condition = new QueryCondition(key, values);
+		mQueryConditions.add(condition);
+	}
+
+	public void clear() {
+		mQueryConditions.clear();
+	}
+
+	public String toString() {
+		String ret = null;
+		int count = mQueryConditions.size();
+		for (int i = 0; i < count; i++) {
+			String temp = mQueryConditions.get(i).toString();
+			if (StringUtil.isEmpty(temp)) {
+				continue;
+			}
+			if (ret == null) {
+				ret = temp;
+			} else {
+				ret += "&";
+				ret += temp;
+			}
+		}
+		return ret;
+	}
+
+	public String toCondition() {
+		String condition = toString();
+		if (!StringUtil.isEmpty(condition)) {
+			condition = "?" + condition;
+		}
+		return condition;
+	}
+
+	public HttpEntity getUrlEncodedFormEntity() {
+		List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>();
+
+		int count = mQueryConditions.size();
+		for (int i = 0; i < count; i++) {
+			QueryCondition queryCondition = mQueryConditions.get(i);
+			if (StringUtil.isEmpty(queryCondition.key)){
+				continue;
+			}
+			if (queryCondition.value != null) {
+				nameValuePair.add(new BasicNameValuePair(queryCondition.key,
+						queryCondition.value));
+			} else if (queryCondition.values != null) {
+				int arraySize = queryCondition.values.size();
+				for (int j = 0; j < arraySize; j++) {
+					nameValuePair.add(new BasicNameValuePair(
+							queryCondition.key, queryCondition.values.get(j)));
+				}
+			}
+		}
+
+		try {
+			return new UrlEncodedFormEntity(nameValuePair, "utf-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public class QueryCondition {
+
+		static final String OPERATOR = "=";
+
+		public String key;
+		public String value = null;
+		public ArrayList<String> values = null;
+
+		public QueryCondition(String key, String value) {
+			this.key = key;
+			this.value = value;
+		}
+
+		public QueryCondition(String key, ArrayList<String> values) {
+			this.key = key;
+			this.values = values;
+		}
+
+		public String toString() {
+			String ret = null;
+			if (!StringUtil.isEmpty(key)) {
+				if (value != null) {
+					try {
+						ret = key + OPERATOR
+								+ URLEncoder.encode(value, "utf-8");
+					} catch (UnsupportedEncodingException e) {
+						e.printStackTrace();
+					}
+				} else if (values != null && values.size() > 0) {
+					try {
+						ret = key + OPERATOR
+								+ URLEncoder.encode(values.get(0), "utf-8");
+					} catch (UnsupportedEncodingException e) {
+						e.printStackTrace();
+					}
+					int count = values.size();
+					for (int i = 1; i < count; i++) {
+						try {
+							ret += ("&" + key + OPERATOR + URLEncoder.encode(
+									values.get(i), "utf-8"));
+						} catch (UnsupportedEncodingException e) {
+							e.printStackTrace();
+						}
+					}
+				}
+			}
+			return ret;
+		}
+	}
+}

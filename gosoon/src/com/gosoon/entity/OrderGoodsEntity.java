@@ -1,0 +1,120 @@
+package com.gosoon.entity;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class OrderGoodsEntity extends BaseEntity{
+
+	public static final String REC_ID = "rec_id";
+	public static final String ORDER_ID = "order_id";
+	public static final String GOODS_ID = "goods_id";
+	public static final String GOODS_NAME = "goods_name";
+	public static final String GOODS_SN = "goods_sn";
+	public static final String PRODUCT_ID = "product_id";
+	public static final String GOODS_NUMBER = "goods_number";
+	public static final String MARKET_PRICE = "market_price";
+	public static final String GOODS_PRICE = "goods_price";
+	public static final String GOODS_ATTR = "goods_attr";
+	public static final String SEND_NUMBER = "send_number";
+	public static final String IS_REAL = "is_real";
+	public static final String EXTENSION_CODE = "extension_code";
+	public static final String PARENT_ID = "parent_id";
+	public static final String IS_GIFT = "is_gift";
+	public static final String GOODS_ATTR_ID = "goods_attr_id";
+	
+	
+
+	public OrderGoodsEntity(JSONObject json){
+		super(json);
+	}
+
+	public OrderGoodsEntity() {
+		super();
+	}
+	
+	public static final String GOODS = "goods";
+	@Override
+	public void praseJson(JSONObject json) {
+		super.praseJson(json);
+
+		if (json.has(GOODS)) {
+			try {
+				String goods = json.getString(GOODS);
+				mGoods = new GoodsEntity();
+				mGoods.fromString(goods);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			json.remove(GOODS);
+		}
+	}
+	@Override
+	public String toString() {
+		if (mJson != null && mGoods != null) {
+			try {
+				mJson.put(GOODS, mGoods.toString());
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		if (mJson != null) {
+			return mJson.toString();
+		}
+		return "";
+	}
+
+	GoodsEntity mGoods = null;
+	public GoodsEntity getGoods(){
+	    return mGoods;
+	}
+	public void setGoods(GoodsEntity goods){
+		mGoods = goods;
+	}
+
+	static tableConfig mTable = null;
+	@Override
+	public tableConfig getTable() {
+		if (mTable == null) {
+			mTable = new tableConfig("gsw_order_goods");
+			mTable.addColumn(new columnConfig(REC_ID, COLUMN_TYPE_MEDIUMINT));
+			mTable.addColumn(new columnConfig(ORDER_ID, COLUMN_TYPE_MEDIUMINT));
+			mTable.addColumn(new columnConfig(GOODS_ID, COLUMN_TYPE_MEDIUMINT));
+			mTable.addColumn(new columnConfig(GOODS_NAME, COLUMN_TYPE_VARCHAR));
+		}
+		return mTable;
+	}
+
+	public boolean setOrderInfo(OrderInfoEntity orderInfo) {
+		if (orderInfo != null) {
+            setValueAsString(ORDER_ID, orderInfo.getValueAsString(OrderInfoEntity.ORDER_ID, ""));
+			return true;
+		}
+		return false;
+	}
+
+	public boolean setCart(CartEntity cart) {
+		if (cart != null) {
+			GoodsEntity goods = cart.getGoodsEntity();
+			if (goods != null) {
+	            setValueAsString(GOODS_ID, goods.getValueAsString(GoodsEntity.GOODS_ID, ""));
+	            setValueAsString(GOODS_NAME, goods.getValueAsString(GoodsEntity.GOODS_NAME, ""));
+	            setValueAsString(GOODS_SN, goods.getValueAsString(GoodsEntity.GOODS_SN, ""));
+	            setValueAsString(MARKET_PRICE, goods.getValueAsString(GoodsEntity.MARKET_PRICE, ""));
+	            setValueAsString(GOODS_PRICE, goods.getValueAsString(GoodsEntity.SHOP_PRICE, ""));
+	            setValueAsString(IS_REAL, goods.getValueAsString(GoodsEntity.IS_REAL, ""));
+	            setValueAsString(EXTENSION_CODE, goods.getValueAsString(GoodsEntity.EXTENSION_CODE, ""));
+			    mGoods = goods;
+			} else {
+				return false;
+			}
+            setValueAsString(GOODS_NUMBER, cart.getValueAsString(CartEntity.CART_AMOUNT, ""));
+            if (cart.has(CartEntity.CART_GOODS_ATTR_NAME)) {
+            	String attr = cart.getValueAsString(CartEntity.CART_GOODS_ATTR_NAME, "") + 
+                		":" + cart.getValueAsString(CartEntity.CART_GOODS_ATTR_VALUE, "");
+                setValueAsString(GOODS_ATTR, attr);
+            }
+            return true;
+		}
+		return false;
+	}
+}

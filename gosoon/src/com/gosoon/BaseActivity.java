@@ -1,0 +1,207 @@
+package com.gosoon;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import com.gosoon.util.AlertDialogConfig;
+import com.gosoon.util.ProgressDialogConfig;
+import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.umeng.analytics.MobclickAgent;
+
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.app.AlertDialog.Builder;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnDismissListener;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class BaseActivity extends Activity{
+	ImageView rightButton;
+	@Override
+	protected void onCreate(Bundle savedInstanceState){
+		super.onCreate(savedInstanceState);
+	}
+	protected void getDataFromNet(){
+		if(!isNetworkConnected()){
+			return;
+		}
+	}
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPause(this);
+	}
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onResume(this);
+		MyApplication.TopActivity = this;
+		View button = findViewById(R.id.btn_back);
+		if (button != null) {
+			button.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					onBackPressed();
+				}
+			});
+		}
+		if(!isNetworkConnected()){
+			AlertDialogConfig config = new AlertDialogConfig(this, MainActivity.ALERTDIALOG_ID_ADDRESS_EDIT);
+			config.message = "无网络连接，请连接网络后再试。";
+			config.onPositiveListener = new android.content.DialogInterface.OnClickListener(){
+				@Override
+				public void onClick(DialogInterface arg0, int arg1) {
+					finish();
+				}
+			};
+			showAlertDialog(config);
+		}
+	}
+	
+	public boolean isNetworkConnected() { 
+		ConnectivityManager mConnectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE); 
+		NetworkInfo mNetworkInfo = mConnectivityManager.getActiveNetworkInfo(); 
+		if (mNetworkInfo != null) { 
+			return mNetworkInfo.isAvailable(); 
+		} 
+		return false; 
+	} 
+	
+	@Override
+	protected void onDestroy() {
+		if (MyApplication.TopActivity == this){
+			MyApplication.TopActivity = null;
+		}
+		super.onDestroy();
+	}
+
+	void setTitle(String title) {
+		TextView tvTitle = (TextView) findViewById(R.id.tv_title);
+		if (tvTitle != null) {
+			tvTitle.setText(title);
+		}
+	}
+
+	void hideLeftButton(boolean hide) {
+		View button = findViewById(R.id.btn_back);
+		if (button != null) {
+			button.setVisibility(hide ? View.GONE : View.VISIBLE);
+		}
+	}
+	protected void setRightButton(Activity context,
+			int resId) {
+		rightButton = (ImageView) context.findViewById(R.id.btn_rignt);
+		if(rightButton != null){
+			rightButton.setVisibility(View.VISIBLE);
+			rightButton.setImageResource(resId);
+		}
+		
+	}
+	void hideRightText(boolean hide) {
+		View button = findViewById(R.id.tv_rignt);
+		if (button != null) {
+			button.setVisibility(hide ? View.GONE : View.VISIBLE);
+		}
+	}
+	
+	public void onClick(View v){
+		switch (v.getId()) {
+		case R.id.btn_back:
+			onBackPressed();
+			break;
+		default:
+			break;
+		}
+	}
+	
+	
+
+	Map<ProgressDialogConfig, ProgressDialog> mProcessDialogMap = new HashMap<ProgressDialogConfig, ProgressDialog>();
+	public void showProcessDialog(final ProgressDialogConfig config) {
+		if (!mProcessDialogMap.containsKey(config)) {
+			ProgressDialog dialog = ProgressDialog.show(this, getString(config.title), getString(config.message), true, true);  
+			if (config.onCalcelListener != null) {
+				dialog.setOnCancelListener(config.onCalcelListener);
+			}
+			dialog.setOnDismissListener(new OnDismissListener() {
+
+				@Override
+				public void onDismiss(DialogInterface dialog) {
+					if (config.onDismissListener != null) {
+						config.onDismissListener.onDismiss(dialog);
+					}
+					mProcessDialogMap.remove(config);
+				}
+			});
+			mProcessDialogMap.put(config, dialog);			
+		}
+	}
+
+	public void closeProcessDialog(ProgressDialogConfig config) {
+		ProgressDialog dialog = mProcessDialogMap.get(config);
+		if (dialog != null) {
+			dialog.dismiss();
+		}
+	}
+
+	Map<AlertDialogConfig, AlertDialog> mAlertDialogMap = new HashMap<AlertDialogConfig, AlertDialog>();
+	public void showAlertDialog(final AlertDialogConfig config){
+		try {
+			if (!mAlertDialogMap.containsKey(config)) {
+				Builder builder = new AlertDialog.Builder(this);
+				builder.setPositiveButton(config.positiveButton, new android.content.DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						if (config.onPositiveListener != null) {
+							config.onPositiveListener.onClick(dialog, which);
+						}
+						dialog.dismiss();
+					}
+				});
+				if (config.showNegative) {
+					builder.setNegativeButton(config.negativeButton, new android.content.DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which){
+							if (config.onNegativeListener != null){
+								config.onNegativeListener.onClick(dialog, which);
+							} 
+							dialog.dismiss();
+						}
+					});
+				}
+				AlertDialog alertDialog = builder.create();
+				alertDialog.setTitle(config.title);
+				alertDialog.setMessage(config.message);
+				alertDialog.show();
+				alertDialog.setOnDismissListener(new OnDismissListener(){
+
+					@Override
+					public void onDismiss(DialogInterface dialog) {
+						mAlertDialogMap.remove(config);
+					}
+				});
+				mAlertDialogMap.put(config, alertDialog);
+			}
+		} catch (Exception e) {
+		}
+		
+	}
+	/**
+	 * 显示Toast信息的封装方法
+	 * @author 潘建成
+	 * @since 4-23
+	 */
+	private void showMessage(String msg){
+		Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+	}
+}

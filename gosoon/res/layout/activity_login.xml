@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_top_login"
+    android:orientation="vertical" >
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/top_detail" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@color/bg_top_login"
+         >
+
+         <ImageView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_centerHorizontal="true"
+             android:layout_centerVertical="true"
+             android:src="@drawable/logo" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical" >
+
+        <View style="@style/login_line" />
+
+        <EditText
+            android:id="@+id/et_login_phone"
+            style="@style/confirm_order_text_label"
+            android:layout_marginLeft="18dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="@string/label_phone_num_hint"
+             >
+        </EditText>
+
+        <View style="@style/confirm_order_line" />
+
+        <EditText
+            android:id="@+id/et_login_password"
+            style="@style/confirm_order_text_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="18dp"
+            android:layout_marginRight="0dp"
+            android:background="@null"
+            android:hint="@string/label_password_hint"
+            android:inputType="textPassword"
+            >
+        </EditText>
+
+        <View style="@style/login_line" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_login"
+        style="@style/btn_green"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:onClick="onClick"
+        android:text="@string/login" />
+
+    <Button
+        android:id="@+id/btn_register"
+        style="@style/btn_white"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:onClick="onClick"
+        android:text="@string/register" />
+
+    <View style="@style/login_line" />
+    <RelativeLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <Button
+            android:id="@+id/btn_forgetpassword" 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/forget_password"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="18dp"
+            android:onClick="onClick"
+            />
+    </RelativeLayout>
+
+</LinearLayout>

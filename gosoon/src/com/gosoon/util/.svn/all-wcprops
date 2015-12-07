@@ -1,0 +1,77 @@
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/gosoon/!svn/ver/3/trunk/gosoon/src/com/gosoon/util
+END
+ConfigUtils.java
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/gosoon/!svn/ver/3/trunk/gosoon/src/com/gosoon/util/ConfigUtils.java
+END
+programSetting.java
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/gosoon/!svn/ver/7/trunk/gosoon/src/com/gosoon/util/programSetting.java
+END
+MyQueryPlug.java
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/gosoon/!svn/ver/3/trunk/gosoon/src/com/gosoon/util/MyQueryPlug.java
+END
+MyResult.java
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/gosoon/!svn/ver/3/trunk/gosoon/src/com/gosoon/util/MyResult.java
+END
+ToastUtil.java
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/gosoon/!svn/ver/10/trunk/gosoon/src/com/gosoon/util/ToastUtil.java
+END
+MyRequestCallback.java
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/gosoon/!svn/ver/3/trunk/gosoon/src/com/gosoon/util/MyRequestCallback.java
+END
+ProgressDialogConfig.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/gosoon/!svn/ver/11/trunk/gosoon/src/com/gosoon/util/ProgressDialogConfig.java
+END
+AlertDialogConfig.java
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/gosoon/!svn/ver/3/trunk/gosoon/src/com/gosoon/util/AlertDialogConfig.java
+END
+DateUtils.java
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/gosoon/!svn/ver/3/trunk/gosoon/src/com/gosoon/util/DateUtils.java
+END
+MyRequest.java
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/gosoon/!svn/ver/11/trunk/gosoon/src/com/gosoon/util/MyRequest.java
+END
+StringUtil.java
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/gosoon/!svn/ver/3/trunk/gosoon/src/com/gosoon/util/StringUtil.java
+END
+Utils.java
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/gosoon/!svn/ver/10/trunk/gosoon/src/com/gosoon/util/Utils.java
+END

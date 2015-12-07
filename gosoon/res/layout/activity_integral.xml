@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bg_top_login" >
+    
+  <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/top_detail" />
+
+  <RelativeLayout
+      style="@style/btn_white"
+      android:layout_width="match_parent"
+      android:layout_height="70dp" >
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentLeft="true"
+          android:layout_marginLeft="15dp"
+          android:layout_marginTop="15dp"
+          android:drawableLeft="@drawable/logo_integral"
+          android:text="  当前可用积分："
+          android:textSize="21sp" />
+
+      <TextView
+          android:id="@+id/integral_number"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginLeft="205dp"
+          android:layout_marginTop="15dp"
+          android:text="0"
+          android:textColor="@color/products_item_rmb_label"
+          android:textSize="21sp" />
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginRight="15dp"
+          android:text="注：100积分=1元"
+          android:layout_alignParentRight="true"
+          android:layout_alignParentBottom="true"
+          android:layout_marginBottom="5dp"
+          android:textColor="@color/products_item_promote" />
+  </RelativeLayout>
+    <View style="@style/center_line" />
+     <include 
+        android:id="@+id/ly_no_integral"
+        layout="@layout/no_integral"
+        android:visibility="gone"
+        />
+    <ListView 
+        style="@style/btn_white"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/integral_list"
+        />
+</LinearLayout>

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_top_login"
+    android:orientation="vertical" >
+	<ScrollView 
+	    android:layout_width="match_parent"
+    	android:layout_height="match_parent"
+	    >
+	    <LinearLayout 
+	        android:layout_width="match_parent"
+    		android:layout_height="wrap_content"
+    		android:orientation="vertical"
+	        >
+	        <include
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        layout="@layout/top_detail" />
+		
+		    <include
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        layout="@layout/top_login" />
+		    
+			<View
+			    style="@style/login_line"
+			     />
+		
+			<View
+			    style="@style/login_line"
+			    android:layout_marginTop="20dp" />
+		
+		    <RelativeLayout
+		        style="@style/btn_white"
+		        android:id="@+id/user_my_order"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		         >
+		         <TextView 
+		             style="@style/label_item_label"
+		             android:text="@string/user_my_order"
+		             android:drawableLeft="@drawable/logo_order"
+		             />
+		    </RelativeLayout>
+		    <View style="@style/center_line" />
+		    <RelativeLayout
+		        style="@style/btn_white"
+		        android:id="@+id/user_charge"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		         >
+		         <TextView 
+		             style="@style/label_item_label"
+		             android:text="@string/user_my_charge"
+		             android:drawableLeft="@drawable/logo_charge"
+		             />
+		    </RelativeLayout>
+		    <!-- 优惠券 -->
+		    <View style="@style/center_line" />
+		    <RelativeLayout
+		        style="@style/btn_white"
+		        android:id="@+id/user_my_bonus"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		         >
+		         <TextView 
+		             style="@style/label_item_label"
+		             android:text="@string/user_my_coupop"
+		             android:drawableLeft="@drawable/logo_order"
+		             />
+		         <TextView
+		             android:id="@+id/bonus_count" 
+		             style="@style/label_item_label"
+		             android:textColor="#ff0000"
+		             android:layout_alignParentRight="true"
+		             android:layout_marginRight="20dp"
+		             />
+		          
+		    </RelativeLayout>
+		    <View style="@style/center_line" />
+		    <!-- 我的积分 -->
+		   <RelativeLayout
+		        style="@style/btn_white"
+		        android:id="@+id/user_my_integral"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		         >
+		         <TextView 
+		             style="@style/label_item_label"
+		             android:text="  我的积分"
+		             android:drawableLeft="@drawable/logo_integral"
+		             />
+		         <TextView
+		             android:id="@+id/integral_count" 
+		             style="@style/label_item_label"
+		             android:textColor="#ff0000"
+		             android:layout_alignParentRight="true"
+		             android:layout_marginRight="20dp"
+		             />
+		          
+		    </RelativeLayout>
+		    
+		    <View style="@style/login_line" />
+		    <View style="@style/login_line"
+		        android:layout_marginTop="20dp" />
+		    <RelativeLayout
+		        style="@style/btn_white"
+		        android:id="@+id/user_my_colletion"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		         >
+		         <TextView 
+		             style="@style/label_item_label"
+		             android:text="@string/user_my_colletion"
+		             android:drawableLeft="@drawable/logo_collection"
+		             />
+		    </RelativeLayout>
+		    <View style="@style/center_line" />
+		    <RelativeLayout
+		        style="@style/btn_white"
+		        android:id="@+id/user_my_address"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		         >
+		         <TextView 
+		             style="@style/label_item_label"
+		             android:text="@string/user_my_address"
+		             android:drawableLeft="@drawable/logo_address"
+		             />
+		    </RelativeLayout>
+		    <View style="@style/login_line" />
+
+		    <Button
+		        android:id="@+id/btn_logout"
+		        style="@style/btn_green"
+		        android:layout_marginLeft="5dp"
+		        android:layout_marginRight="5dp"
+		        android:text="@string/logout" />
+
+	    </LinearLayout>
+	</ScrollView>
+
+</LinearLayout>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/ly_shoppingcart_total"
+        android:orientation="vertical" >
+
+        <include layout="@layout/top_detail" />
+        <include 
+            android:id="@+id/ly_no_goods"
+            layout="@layout/no_shoppingcart"
+            />
+        <ListView
+            android:id="@+id/lv_shoppingcart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/ly_shoppingcart_total"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <CheckBox
+                android:id="@+id/cb_shoppingcart_check_all"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/cb_shoppingcart"
+                android:button="@null" />
+
+            <TextView
+                style="@style/shoppingcart_total_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="@string/label_total" />
+
+            <TextView
+                style="@style/shoppingcart_total_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_rmb" />
+
+            <TextView
+                android:id="@+id/tv_shoppingcart_total_label"
+                style="@style/shoppingcart_total_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="58.00" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/btn_settle_accounts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@null"
+            android:src="@drawable/btn_settle_accounts_shoppingcart" />
+    </RelativeLayout>
+
+</RelativeLayout>

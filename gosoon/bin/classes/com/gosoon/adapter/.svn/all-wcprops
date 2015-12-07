@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/gosoon/!svn/ver/3/trunk/gosoon/src/com/gosoon/adapter
+END
+BaseListAdapter.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/gosoon/!svn/ver/3/trunk/gosoon/src/com/gosoon/adapter/BaseListAdapter.java
+END
+MyOrdersAdapter.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/gosoon/!svn/ver/3/trunk/gosoon/src/com/gosoon/adapter/MyOrdersAdapter.java
+END
+AddressAdapter.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/gosoon/!svn/ver/10/trunk/gosoon/src/com/gosoon/adapter/AddressAdapter.java
+END
+GoodsAdapter.java
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/gosoon/!svn/ver/3/trunk/gosoon/src/com/gosoon/adapter/GoodsAdapter.java
+END
+OrderGoodsAdapter.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/gosoon/!svn/ver/3/trunk/gosoon/src/com/gosoon/adapter/OrderGoodsAdapter.java
+END
+ShoppingcartAdapter.java
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/gosoon/!svn/ver/10/trunk/gosoon/src/com/gosoon/adapter/ShoppingcartAdapter.java
+END
+MyCollectionAdapter.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/gosoon/!svn/ver/3/trunk/gosoon/src/com/gosoon/adapter/MyCollectionAdapter.java
+END
+CategoryAdapter.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/gosoon/!svn/ver/3/trunk/gosoon/src/com/gosoon/adapter/CategoryAdapter.java
+END

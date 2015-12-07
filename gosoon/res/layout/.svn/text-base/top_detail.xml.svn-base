@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/activity_vertical_margin" >
+
+    <RelativeLayout
+        android:id="@+id/ly_shoppingcart_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="5dp" >
+
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:src="@drawable/btn_back_shoppingcart" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            style="@style/shoppingcart_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="TITLE" />
+
+        <ImageButton
+            android:id="@+id/btn_rignt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@null"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_rignt"
+            style="@style/shoppingcart_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="+"
+            android:textSize="30sp"
+            android:visibility="gone"
+            android:onClick="onClick" />
+
+    </RelativeLayout>
+
+    <include
+        android:layout_marginTop="5dp"
+        layout="@layout/top_line" />
+
+</LinearLayout>

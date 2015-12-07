@@ -1,0 +1,89 @@
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/gosoon/!svn/ver/3/trunk/gosoon/src/com/gosoon
+END
+BaseActivity.java
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/gosoon/!svn/ver/10/trunk/gosoon/src/com/gosoon/BaseActivity.java
+END
+settleAccountsActivity.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/gosoon/!svn/ver/10/trunk/gosoon/src/com/gosoon/settleAccountsActivity.java
+END
+AddressEditActivity.java
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/gosoon/!svn/ver/10/trunk/gosoon/src/com/gosoon/AddressEditActivity.java
+END
+OrderResultActivity.java
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/gosoon/!svn/ver/3/trunk/gosoon/src/com/gosoon/OrderResultActivity.java
+END
+MyCollectionActivity.java
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/gosoon/!svn/ver/10/trunk/gosoon/src/com/gosoon/MyCollectionActivity.java
+END
+LoginActivity.java
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/gosoon/!svn/ver/3/trunk/gosoon/src/com/gosoon/LoginActivity.java
+END
+MainActivity.java
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/gosoon/!svn/ver/10/trunk/gosoon/src/com/gosoon/MainActivity.java
+END
+RechargeActivity.java
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/gosoon/!svn/ver/7/trunk/gosoon/src/com/gosoon/RechargeActivity.java
+END
+goodsDetailActivity.java
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/gosoon/!svn/ver/11/trunk/gosoon/src/com/gosoon/goodsDetailActivity.java
+END
+MyApplication.java
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/gosoon/!svn/ver/10/trunk/gosoon/src/com/gosoon/MyApplication.java
+END
+goodslistActivity.java
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/gosoon/!svn/ver/11/trunk/gosoon/src/com/gosoon/goodslistActivity.java
+END
+RegisterActivity.java
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/gosoon/!svn/ver/9/trunk/gosoon/src/com/gosoon/RegisterActivity.java
+END
+MyOrderActivity.java
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/gosoon/!svn/ver/7/trunk/gosoon/src/com/gosoon/MyOrderActivity.java
+END
+addressListActivity.java
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/gosoon/!svn/ver/10/trunk/gosoon/src/com/gosoon/addressListActivity.java
+END

@@ -1,0 +1,56 @@
+package com.gosoon.entity;
+
+import org.json.JSONObject;
+
+import com.gosoon.fragment.categoryFragment;
+import com.gosoon.util.StringUtil;
+
+public class GoodsEntity extends BaseEntity{
+
+	public static final String GOODS_ID = "goods_id";
+	public static final String GOODS_SN = "goods_sn";
+	public static final String GOODS_NAME = "goods_name";
+	public static final String MARKET_PRICE = "market_price";
+	public static final String SHOP_PRICE = "shop_price";
+	public static final String PROMOTE_PRICE = "promote_price";
+	public static final String GOODS_BRIEF = "goods_brief";
+	public static final String GOODS_DESC = "goods_desc";
+	public static final String GOODS_THUMB = "goods_thumb";
+	public static final String GOODS_IMG = "goods_img";
+	public static final String GOODS_WEIGHT = "goods_weight";
+	public static final String GOODS_WEIGHT_STR = "goods_weight_str";
+	public static final String SORT_ORDER = "sort_order";
+	public static final String CAT_ID = "cat_id";
+	public static final String IS_REAL = "is_real";
+	public static final String EXTENSION_CODE = "extension_code";
+
+
+	public GoodsEntity(JSONObject json) {
+        super(json);
+	}
+
+	public GoodsEntity() {
+	}
+
+	static tableConfig mTable = null;
+	@Override
+	public tableConfig getTable() {
+		if (mTable == null) {
+			mTable = new tableConfig("gsw_goods");
+		}
+		return mTable;
+	}
+
+	String weight = null;
+	public String getWeight() {
+		if (StringUtil.isEmpty(weight)) {
+			CategoryEntity category = categoryFragment.getCategoryByCatId(getValueAsString(GoodsEntity.CAT_ID, ""));
+			String unit = "";
+			if (category != null) {
+				unit = category.getValueAsString(CategoryEntity.MEASURE_UNIT, "");
+			}
+			weight = getValueAsString(GoodsEntity.GOODS_WEIGHT_STR, "") + unit;
+		}
+		return weight;
+	}
+}

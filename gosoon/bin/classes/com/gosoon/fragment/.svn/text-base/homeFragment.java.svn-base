@@ -1,0 +1,268 @@
+package com.gosoon.fragment;
+
+import java.util.ArrayList;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
+import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
+
+import com.gosoon.MyApplication;
+import com.gosoon.R;
+import com.gosoon.goodsDetailActivity;
+import com.gosoon.goodslistActivity;
+import com.gosoon.entity.AdsEntity;
+import com.gosoon.entity.CategoryEntity;
+import com.gosoon.util.MyRequestCallback;
+import com.gosoon.util.MyResult;
+import com.gosoon.util.StringUtil;
+import com.gosoon.util.ToastUtil;
+import com.gosoon.util.Utils;
+import com.gosoon.util.programSetting;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.bitmap.BitmapDisplayConfig;
+import com.lidroid.xutils.bitmap.callback.BitmapLoadCallBack;
+import com.lidroid.xutils.bitmap.callback.BitmapLoadFrom;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
+
+@SuppressLint("ValidFragment")
+public class homeFragment extends baseFragment {
+
+	ArrayList<View> mCategoryActionViews = new ArrayList<View>();
+	ArrayList<TextView> mCategoryLabels = new ArrayList<TextView>();
+	EditText mSearchText;
+	View progressBar;
+	LinearLayout mAdsLayout;
+
+	@SuppressLint("ValidFragment")
+	public homeFragment(Bundle params) {
+		super(params);
+	}
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		View main = inflater.inflate(R.layout.fragment_home, container, false);
+		progressBar = main.findViewById(R.id.progressBar);
+		mCategoryActionViews.clear();
+		mCategoryLabels.clear();
+		mCategoryActionViews.add(main.findViewById(R.id.ly_category1));
+		mCategoryActionViews.add(main.findViewById(R.id.ly_category2));
+		mCategoryActionViews.add(main.findViewById(R.id.ly_category3));
+		mCategoryActionViews.add(main.findViewById(R.id.ly_category4));
+		mCategoryActionViews.add(main.findViewById(R.id.ly_category5));
+		mCategoryActionViews.add(main.findViewById(R.id.ly_category6));
+		mCategoryActionViews.add(main.findViewById(R.id.ly_category7));
+		mCategoryActionViews.add(main.findViewById(R.id.ly_category8));
+		mCategoryLabels.add((TextView) main.findViewById(R.id.tv_category1));
+		mCategoryLabels.add((TextView) main.findViewById(R.id.tv_category2));
+		mCategoryLabels.add((TextView) main.findViewById(R.id.tv_category3));
+		mCategoryLabels.add((TextView) main.findViewById(R.id.tv_category4));
+		mCategoryLabels.add((TextView) main.findViewById(R.id.tv_category5));
+		mCategoryLabels.add((TextView) main.findViewById(R.id.tv_category6));
+		mCategoryLabels.add((TextView) main.findViewById(R.id.tv_category7));
+		mCategoryLabels.add((TextView) main.findViewById(R.id.tv_category8));
+		mAdsViews.add((ImageView) main.findViewById(R.id.iv_ad1));
+		mAdsViews.add((ImageView) main.findViewById(R.id.iv_ad2));
+		mAdsViews.add((ImageView) main.findViewById(R.id.iv_ad3));
+		mAdsLayout = (LinearLayout) main.findViewById(R.id.ll_ads);
+		for (View view : mCategoryActionViews) {
+			view.setVisibility(View.INVISIBLE);
+		}
+		getDataFromNet();
+		mSearchText = (EditText) main.findViewById(R.id.et_search);
+		mSearchText.setOnEditorActionListener(new OnEditorActionListener() {
+
+			@Override
+			public boolean onEditorAction(TextView v, int actionId,
+					KeyEvent event) {
+				if (actionId == EditorInfo.IME_ACTION_SEARCH
+						|| actionId == EditorInfo.IME_ACTION_DONE
+						|| actionId == EditorInfo.IME_ACTION_GO
+						|| actionId == EditorInfo.IME_ACTION_NEXT
+						|| actionId == EditorInfo.IME_ACTION_NONE
+						|| actionId == EditorInfo.IME_ACTION_PREVIOUS
+						|| actionId == EditorInfo.IME_ACTION_SEND
+						|| actionId == EditorInfo.IME_ACTION_UNSPECIFIED) {
+					searchGoods(v.getText().toString());
+				}
+				return false;
+			}
+		});
+		return main;
+	}
+	@Override
+	protected void getDataFromNet() {
+		super.getDataFromNet();
+		if(isNetworkConnected()){
+			categoryFragment.getCategorysFromNet(getCategoryFromNetCallback);
+			getAds();
+		}
+	};
+	MyRequestCallback getCategoryFromNetCallback = new MyRequestCallback() {
+
+		@Override
+		public void onSuccess(MyResult result) {
+			super.onSuccess(result);
+			updateCategorys();
+		};
+	};
+
+	protected void updateCategorys() {
+		ArrayList<CategoryEntity> categorys = categoryFragment.getCategorys();
+		for (int i = 0; i < mCategoryActionViews.size(); i++) {
+			View actionView = mCategoryActionViews.get(i);
+			TextView label = mCategoryLabels.get(i);
+			if (categorys.size() > i) {
+				final CategoryEntity category = categorys.get(i);
+				progressBar.setVisibility(View.GONE);
+				actionView.setVisibility(View.VISIBLE);
+				label.setText(category.getValueAsString(
+						CategoryEntity.CATEGORY_NAME, ""));
+				actionView.setOnClickListener(new OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+						Intent intent = new Intent(getActivity(),
+								goodslistActivity.class);
+						intent.putExtra(goodslistActivity.PARAM_CATEGORY,
+								category.toString());
+						startActivity(intent);
+					}
+				});
+			} else {
+				actionView.setVisibility(View.INVISIBLE);
+			}
+		}
+	}
+
+	private void searchGoods(String goodsName) {
+		if (!StringUtil.isEmpty(goodsName)) {
+			Intent intent = new Intent(getActivity(), goodslistActivity.class);
+			intent.putExtra(goodslistActivity.PARAM_GOODS_NAME, goodsName);
+			startActivity(intent);
+		}
+	}
+
+	protected void showAds() {
+		int size = Math.max(mAdsViews.size(), mAds.size());
+		for (int i = 0; i < size; i++) {
+			if (mAdsViews.size() <= i) {
+				ImageView image = new ImageView(MyApplication.getContext());
+				image.setScaleType(ScaleType.FIT_XY);
+				image.setBackgroundResource(R.drawable.lost_main_other); 				
+				mAdsViews.add(image);
+				mAdsLayout.addView(image);
+			}
+			ImageView image = mAdsViews.get(i);
+			if (mAds.size() <= i) {
+				if (i >= MIN_ADS) {
+					image.setVisibility(View.GONE);
+				} else {
+					image.setVisibility(View.VISIBLE);
+					image.setBackgroundResource(R.drawable.lost_main_other);
+				}
+				image.setOnClickListener(null);
+			} else {
+				image.setVisibility(View.VISIBLE);
+				final AdsEntity ad = mAds.get(i);
+				Utils.getDefaultBitmapUtils().display(image, ad.getUrlAsString(AdsEntity.IMAGE, ""), 
+						Utils.getConfig(MyApplication.getContext(), R.drawable.lost_main_other), new BitmapLoadCallBack<ImageView>() {
+
+					@Override
+					public void onLoadCompleted(final ImageView container, String uri,
+							final Bitmap bitmap, BitmapDisplayConfig config,
+							BitmapLoadFrom from) {
+						container.postDelayed(new Runnable() {
+							@Override
+							public void run() {
+								container.setScaleType(ScaleType.FIT_XY);
+								double scale = (double)bitmap.getHeight() / (double)bitmap.getWidth();
+								double viewHeight = container.getWidth() * scale;
+								LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, (int) viewHeight);
+								params.setMargins(10, 10, 10, 0);
+								container.setLayoutParams(params);
+								container.setImageBitmap(bitmap);
+								
+							}
+						}, 200);
+					}
+
+					@Override
+					public void onLoadFailed(ImageView container, String uri,
+							Drawable drawable) {
+						
+					}
+					
+				});
+				image.setOnClickListener(new OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+						if (ad.has(AdsEntity.TARGET)) {
+							Intent intent = new Intent(getActivity(),
+									goodsDetailActivity.class);
+							intent.putExtra(goodsDetailActivity.PARAM_GOODS_ID,
+									ad.getValueAsString(AdsEntity.TARGET, ""));
+							startActivity(intent);
+						}
+					}
+				});
+			}
+		}
+	}
+	static final int MIN_ADS = 3;
+	ArrayList<ImageView> mAdsViews = new ArrayList<ImageView>();
+	ArrayList<AdsEntity> mAds = new ArrayList<AdsEntity>();
+
+	protected void getAds() {
+		HttpUtils httpUtils = new HttpUtils();
+		httpUtils.configCurrentHttpCacheExpiry(1000 * 10);
+		httpUtils.send(HttpMethod.GET, programSetting.getADSUrl(),
+				new RequestCallBack<String>() {
+
+					@Override
+					public void onSuccess(ResponseInfo responseInfo) {
+						String result = (String) responseInfo.result;
+						try {
+							JSONObject adJson = new JSONObject(result);
+							JSONArray ads = adJson.getJSONArray("ads");
+							mAds.clear();
+							for (int i = 0; i < ads.length(); i++) {
+								mAds.add(new AdsEntity(ads.getJSONObject(i)));
+							}
+							showAds();
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
+					}
+
+					@Override
+					public void onFailure(HttpException error, String msg) {
+                        ToastUtil.show(getActivity(), msg);
+					}
+				});
+	}
+
+}

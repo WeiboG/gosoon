@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/ly_con_order_total"
+        android:orientation="vertical" >
+
+        <include layout="@layout/top_detail" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <RelativeLayout
+                    android:id="@+id/ly_edit_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/tv_address_label"
+                        style="@style/confirm_order_text_label"
+                        android:text="@string/label_edit_address" />
+
+                    <TextView
+                        android:id="@+id/tv_user_address"
+                        style="@style/confirm_order_text_label"
+                        android:layout_toRightOf="@+id/tv_address_label"
+                        android:layout_toLeftOf="@+id/iv_arrow1"
+                        android:text="@string/label_pls_input"
+                        android:gravity="right" />
+                    <ImageView
+                        android:id="@+id/iv_arrow1"
+                        style="@style/confirm_order_arrow" />
+                </RelativeLayout>
+
+                <View style="@style/confirm_order_line" />
+
+                <RelativeLayout
+                    android:id="@+id/ly_select_deliver_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/tv_deliver_label"
+                        style="@style/confirm_order_text_label"
+                        android:text="@string/label_select_deliver_type" />
+
+                    <TextView
+                        android:id="@+id/tv_shipping"
+                        style="@style/confirm_order_text_label"
+                        android:layout_toRightOf="@+id/tv_deliver_label"
+                        android:layout_toLeftOf="@+id/iv_arrow2"
+                        android:gravity="right"
+                        android:text="@string/label_pls_select" />
+
+                    <ImageView
+                        android:id="@+id/iv_arrow2"
+                        style="@style/confirm_order_arrow" />
+                </RelativeLayout>
+
+                <View style="@style/confirm_order_line" />
+
+                <RelativeLayout
+                    android:id="@+id/ly_select_pay_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/tv_pay_label"
+                        style="@style/confirm_order_text_label"
+                        android:text="@string/label_select_pay_type" />
+
+                    <TextView
+                        android:id="@+id/tv_payment"
+                        style="@style/confirm_order_text_label"
+                        android:layout_toLeftOf="@+id/iv_arrow3"
+                        android:layout_toRightOf="@+id/tv_pay_label"
+                        android:gravity="right"
+                        android:text="@string/label_pls_select" />
+
+                    <ImageView
+                        android:id="@+id/iv_arrow3"
+                        style="@style/confirm_order_arrow" />
+                </RelativeLayout>
+
+                <View style="@style/confirm_order_line" />
+
+                <RelativeLayout
+                    android:id="@+id/ly_pay_by_balance"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+
+                    <TextView
+                        android:id="@+id/tv_pay_by_balance_label"
+                        style="@style/confirm_order_text_label"
+                        android:text="@string/label_pay_by_balance" />
+					<TextView
+                        android:id="@+id/tv_pay_by_balance"
+                        style="@style/confirm_order_text_label"
+                        android:layout_toRightOf="@+id/tv_pay_by_balance_label"
+                        android:layout_toLeftOf="@+id/iv_arrow4"
+                        android:text="@string/label_pls_input"
+                        android:gravity="right" />
+                    <ImageView 
+                        android:id="@+id/iv_arrow4"
+                        style="@style/confirm_order_arrow" />
+                </RelativeLayout>
+
+                <View style="@style/confirm_order_line" />
+                <RelativeLayout
+                    android:id="@+id/ly_select_bonus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+
+                    <TextView
+                        android:id="@+id/tv_select_bonus_label"
+                        style="@style/confirm_order_text_label"
+                        android:text="@string/label_select_bonus" />
+					<TextView
+                        android:id="@+id/tv_select_bonus"
+                        style="@style/confirm_order_text_label"
+                        android:layout_toRightOf="@+id/tv_select_bonus_label"
+                        android:layout_toLeftOf="@+id/iv_arrow5"
+                        android:text="@string/label_pls_select"
+                        android:gravity="right" />
+                    <ImageView 
+                        android:id="@+id/iv_arrow5"
+                        style="@style/confirm_order_arrow" />
+                </RelativeLayout>
+
+                <View style="@style/confirm_order_line" />
+                
+                <RelativeLayout
+                    android:id="@+id/ly_select_integral"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+
+                    <TextView
+                        android:id="@+id/tv_select_integral_label"
+                        style="@style/confirm_order_text_label"
+                        android:text="@string/label_select_integral" />
+					<TextView
+                        android:id="@+id/tv_select_integral"
+                        style="@style/confirm_order_text_label"
+                        android:layout_toRightOf="@+id/tv_select_integral_label"
+                        android:layout_toLeftOf="@+id/iv_arrow6"
+                        android:text="@string/label_pls_select"
+                        android:gravity="right" />
+                    <ImageView 
+                        android:id="@+id/iv_arrow6"
+                        style="@style/confirm_order_arrow" />
+                </RelativeLayout>
+
+                
+                <!--
+                <RelativeLayout
+                    android:id="@+id/ly_select_coupon"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        style="@style/confirm_order_text_label"
+                        android:text="@string/label_select_coupon" />
+
+                    <ImageView style="@style/confirm_order_arrow" />
+                </RelativeLayout>
+                -->
+
+                <View style="@style/confirm_order_line" />
+
+                <LinearLayout
+                    android:id="@+id/ll_order_goods"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical" />
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/ly_con_order_total"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:paddingBottom="2dp"
+            android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        style="@style/shoppingcart_total_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_total" />
+
+                    <TextView
+                        style="@style/shoppingcart_total_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_rmb" />
+
+                    <TextView
+                        android:id="@+id/tv_order_total_amount"
+                        style="@style/shoppingcart_total_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="58.00" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        style="@style/order_freight"
+                        android:text="@string/label_order_freight" />
+
+                    <TextView
+                        android:id="@+id/shopping_fee"
+                        style="@style/order_freight"
+                        android:text="0" />
+                    <TextView
+                        style="@style/order_freight"
+                        android:text="@string/label_yuan" />
+                </LinearLayout>
+                 
+                <LinearLayout
+                    android:id="@+id/ly_has_pay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:visibility="gone" >
+
+                    <TextView
+                        style="@style/order_freight"
+                        android:text="@string/label_order_has_pay" />
+
+                    <TextView
+                        android:id="@+id/has_pay"
+                        style="@style/order_freight"
+                        android:text="0" />
+
+                    <TextView
+                        style="@style/order_freight"
+                        android:text="@string/label_yuan" />
+                </LinearLayout>
+                
+                 <LinearLayout
+                    android:id="@+id/layout_bonus_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        style="@style/order_freight"
+                        android:text="@string/label_order_bonus" />
+                    <TextView
+                        android:id="@+id/tv_bonus"
+                        style="@style/order_freight"
+                        android:text="0" />
+
+                    <TextView
+                        style="@style/order_freight"
+                        android:text="@string/label_yuan" />
+                </LinearLayout>
+                
+                 <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:id="@+id/layout_integral"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        style="@style/order_freight"
+                        android:text="@string/label_integral" />
+
+                    <TextView
+                        android:id="@+id/integral"
+                        style="@style/order_freight"
+                        android:text="0" />
+                </LinearLayout>
+                
+                <LinearLayout
+                    android:id="@+id/ly_should_pay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:visibility="visible"  >
+
+                    <TextView
+                        style="@style/order_freight"
+                        android:text="@string/label_order_should_pay" />
+
+                    <TextView
+                        android:id="@+id/should_pay"
+                        style="@style/order_freight"
+                        android:text="0" />
+
+                    <TextView
+                        style="@style/order_freight"
+                        android:text="@string/label_yuan" />
+                </LinearLayout>
+        </LinearLayout>
+		<LinearLayout 
+		    android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical"
+		    >
+	        <ImageButton
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:id="@+id/btn_pay"
+	            android:background="@null"
+	            android:src="@drawable/btn_pay" />
+
+	        <ImageButton
+	            android:id="@+id/btn_cancel"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_marginTop="5dp"
+	            android:background="@null"
+	            android:src="@drawable/btn_cancel"
+	            android:visibility="gone" />
+
+		</LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

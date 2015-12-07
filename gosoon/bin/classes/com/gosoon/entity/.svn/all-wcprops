@@ -1,0 +1,101 @@
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/gosoon/!svn/ver/3/trunk/gosoon/src/com/gosoon/entity
+END
+CollectGoodsEntity.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/gosoon/!svn/ver/3/trunk/gosoon/src/com/gosoon/entity/CollectGoodsEntity.java
+END
+UserEntity.java
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/gosoon/!svn/ver/3/trunk/gosoon/src/com/gosoon/entity/UserEntity.java
+END
+UserAddressEntity.java
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/gosoon/!svn/ver/3/trunk/gosoon/src/com/gosoon/entity/UserAddressEntity.java
+END
+OrderGoodsEntity.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/gosoon/!svn/ver/3/trunk/gosoon/src/com/gosoon/entity/OrderGoodsEntity.java
+END
+PaymentEntity.java
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/gosoon/!svn/ver/3/trunk/gosoon/src/com/gosoon/entity/PaymentEntity.java
+END
+CashCardEntity.java
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/gosoon/!svn/ver/7/trunk/gosoon/src/com/gosoon/entity/CashCardEntity.java
+END
+CartEntity.java
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/gosoon/!svn/ver/3/trunk/gosoon/src/com/gosoon/entity/CartEntity.java
+END
+CategoryEntity.java
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/gosoon/!svn/ver/3/trunk/gosoon/src/com/gosoon/entity/CategoryEntity.java
+END
+GoodsGalleryEntity.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/gosoon/!svn/ver/3/trunk/gosoon/src/com/gosoon/entity/GoodsGalleryEntity.java
+END
+OrderInfoEntity.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/gosoon/!svn/ver/10/trunk/gosoon/src/com/gosoon/entity/OrderInfoEntity.java
+END
+AccountLogEntity.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/gosoon/!svn/ver/7/trunk/gosoon/src/com/gosoon/entity/AccountLogEntity.java
+END
+GoodsEntity.java
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/gosoon/!svn/ver/10/trunk/gosoon/src/com/gosoon/entity/GoodsEntity.java
+END
+RegionEntity.java
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/gosoon/!svn/ver/3/trunk/gosoon/src/com/gosoon/entity/RegionEntity.java
+END
+BaseEntity.java
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/gosoon/!svn/ver/7/trunk/gosoon/src/com/gosoon/entity/BaseEntity.java
+END
+AdsEntity.java
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/gosoon/!svn/ver/3/trunk/gosoon/src/com/gosoon/entity/AdsEntity.java
+END
+ShippingEntity.java
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/gosoon/!svn/ver/3/trunk/gosoon/src/com/gosoon/entity/ShippingEntity.java
+END

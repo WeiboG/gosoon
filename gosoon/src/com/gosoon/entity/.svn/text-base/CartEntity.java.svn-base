@@ -1,0 +1,63 @@
+package com.gosoon.entity;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class CartEntity extends BaseEntity{
+
+	public static final String CART_CHECK = "cart_check";
+	public static final String CART_GOODS = "cart_goods";
+	public static final String CART_AMOUNT = "cart_amount";
+	
+	GoodsEntity mGoods;
+	
+	public CartEntity(JSONObject json) {
+        super(json);
+	}
+
+	public CartEntity() {
+	}
+
+	@Override
+	public void praseJson(JSONObject json) {
+		super.praseJson(json);
+
+		if (json.has(CART_GOODS)) {
+			try {
+				String goods = json.getString(CART_GOODS);
+				mGoods = new GoodsEntity();
+				mGoods.fromString(goods);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	@Override
+	public String toString() {
+		if (mJson != null && mGoods != null) {
+			try {
+				mJson.put(CART_GOODS, mGoods.toString());
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		if (mJson != null) {
+			return mJson.toString();
+		}
+		return "";
+	}
+
+	public GoodsEntity getGoodsEntity() {
+		return mGoods;
+	}
+	
+	public void setGoodsEntity(GoodsEntity goods) {
+		mGoods = goods;
+	}
+
+	@Override
+	public tableConfig getTable() {
+		return null;//"gsw_cart";//购物车表未使用，购物车信息存在本地
+	}
+}

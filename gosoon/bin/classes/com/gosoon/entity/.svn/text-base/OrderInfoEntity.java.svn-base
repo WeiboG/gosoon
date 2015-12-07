@@ -1,0 +1,283 @@
+package com.gosoon.entity;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.gosoon.account.MyAccount;
+import com.gosoon.util.programSetting;
+
+public class OrderInfoEntity extends BaseEntity {
+
+	public static final String ORDER_ID = "order_id";
+	public static final String ORDER_SN = "order_sn";
+	public static final String USER_ID = "user_id";
+	public static final String ORDER_STATUS = "order_status";
+	public static final String SHIPPING_STATUS = "shipping_status";
+	public static final String PAY_STATUS = "pay_status";
+	public static final String CONSIGNEE = "consignee";
+	public static final String COUNTRY = "country";
+	public static final String PROVINCE = "province";
+	public static final String CITY = "city";
+	public static final String DISTRICT = "district";
+	public static final String TOWN = "town";
+	public static final String ADDRESS = "address";
+	public static final String ZIPCODE = "zipcode";
+	public static final String TEL = "tel";
+	public static final String MOBILE = "mobile";
+	public static final String EMAIL = "email";
+	public static final String BEST_TIME = "best_time";
+	public static final String SIGN_BUILDING = "sign_building";
+	public static final String POSTSCRIPT = "postscript";
+	public static final String SHIPPING_ID = "shipping_id";
+	public static final String SHIPPING_NAME = "shipping_name";
+	public static final String PAY_ID = "pay_id";
+	public static final String PAY_NAME = "pay_name";
+	public static final String PAY_FEE = "pay_fee";
+	public static final String SURPLUS = "surplus";
+	// sjd add
+	// 商品总金额
+	public static final String GOODS_AMOUNT = "goods_amount";
+	// 配送费用
+	public static final String SHIPPING_FEE = "shipping_fee";
+	// 应付金额 ：order_amount＝goods_amount＋shipping_fee－discount
+	public static final String ORDER_AMOUNT = "order_amount";
+	// 已付款金额
+	public static final String MONEY_PAID = "money_paid";
+	// 折扣金额
+	public static final String DISCOUNT = "discount";
+
+	// 其他not null & no default 字段
+	public static final String HOW_OOS = "how_oos";
+	public static final String HOW_SURPLUS = "how_surplus";
+	public static final String PACK_NAME = "pack_name";
+	public static final String CARD_NAME = "card_name";
+	public static final String CARD_MESSAGE = "card_message";
+	public static final String INV_PAYEE = "inv_payee";
+	public static final String INV_CONTENT = "inv_content";
+	public static final String INVOICE_NO = "invoice_no";
+	public static final String EXTENSION_CODE = "extension_code";
+	public static final String TO_BUYER = "to_buyer";
+	public static final String PAY_NOTE = "pay_note";
+	public static final String AGENCY_ID = "agency_id";
+	public static final String INV_TYPE = "inv_type";
+	public static final String TAX = "tax";
+	public static final String ADD_TIME = "add_time";
+	public static final String PAY_TIME = "pay_time";
+	public static final String FINISH_TIME = "finish_time";
+
+	public OrderInfoEntity(JSONObject json) {
+		super(json);
+	}
+
+	public OrderInfoEntity() {
+		super();
+	}
+
+	public static final String ORDER_GOODS = "order_goods";
+
+	@Override
+	public void praseJson(JSONObject json) {
+		super.praseJson(json);
+
+		if (json.has(ORDER_GOODS)) {
+			try {
+				JSONArray jsons = json.getJSONArray(ORDER_GOODS);
+				mOrderGoods = new ArrayList<OrderGoodsEntity>();
+				for (int i = 0; i < jsons.length(); i++) {
+					OrderGoodsEntity orderGoods = new OrderGoodsEntity();
+					orderGoods.fromString(jsons.getString(i));
+					mOrderGoods.add(orderGoods);
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			json.remove(ORDER_GOODS);
+		}
+	}
+
+	@Override
+	public String toString() {
+		if (mJson != null && mOrderGoods != null && mOrderGoods.size() > 0) {
+			try {
+				JSONArray orderGoods = new JSONArray();
+				for (int i = 0; i < mOrderGoods.size(); i++) {
+					orderGoods.put(i, mOrderGoods.get(i).toString());
+				}
+				mJson.put(ORDER_GOODS, orderGoods);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		if (mJson != null) {
+			return mJson.toString();
+		}
+		return "";
+	}
+
+	ArrayList<OrderGoodsEntity> mOrderGoods = null;
+
+	public ArrayList<OrderGoodsEntity> getOrderGoods() {
+		return mOrderGoods;
+	}
+
+	public void setOrderGoods(ArrayList<OrderGoodsEntity> orderGoods) {
+		mOrderGoods = orderGoods;
+	}
+
+	public boolean isTempOrder() {
+		return !has(ORDER_ID);
+	}
+
+	public boolean isPayByAlipay() {
+		return getValueAsString(OrderInfoEntity.PAY_NAME, "").equals("支付宝");
+	}
+
+	static tableConfig mTable = null;
+
+	@Override
+	public tableConfig getTable() {
+		if (mTable == null) {
+			mTable = new tableConfig("gsw_order_info");
+			mTable.addColumn(new columnConfig(ORDER_ID, COLUMN_TYPE_MEDIUMINT));
+			mTable.addColumn(new columnConfig(ORDER_SN, COLUMN_TYPE_VARCHAR));
+			mTable.addColumn(new columnConfig(USER_ID, COLUMN_TYPE_MEDIUMINT));
+		}
+		return mTable;
+	}
+
+	public boolean setUserAddress(UserAddressEntity userAddress) {
+		if (userAddress != null) {
+			setValueAsString(CONSIGNEE, userAddress.getValueAsString(
+					UserAddressEntity.CONSIGNEE, ""));
+			setValueAsString(COUNTRY,
+					userAddress.getValueAsString(UserAddressEntity.COUNTRY, ""));
+			setValueAsString(PROVINCE, userAddress.getValueAsString(
+					UserAddressEntity.PROVINCE, ""));
+			setValueAsString(CITY,
+					userAddress.getValueAsString(UserAddressEntity.CITY, ""));
+			setValueAsString(DISTRICT, userAddress.getValueAsString(
+					UserAddressEntity.DISTRICT, ""));
+			setValueAsString(TOWN,
+					userAddress.getValueAsString(UserAddressEntity.TOWN, ""));
+			setValueAsString(ADDRESS,
+					userAddress.getValueAsString(UserAddressEntity.ADDRESS, ""));
+			setValueAsString(ZIPCODE,
+					userAddress.getValueAsString(UserAddressEntity.ZIPCODE, ""));
+			setValueAsString(TEL,
+					userAddress.getValueAsString(UserAddressEntity.TEL, ""));
+			setValueAsString(MOBILE,
+					userAddress.getValueAsString(UserAddressEntity.MOBILE, ""));
+			setValueAsString(EMAIL,
+					userAddress.getValueAsString(UserAddressEntity.EMAIL, ""));
+			setValueAsString(BEST_TIME, userAddress.getValueAsString(
+					UserAddressEntity.BEST_TIME, ""));
+			setValueAsString(SIGN_BUILDING, userAddress.getValueAsString(
+					UserAddressEntity.SIGN_BUILDING, ""));
+		} else {
+			remove(CONSIGNEE);
+			remove(COUNTRY);
+			remove(PROVINCE);
+			remove(CITY);
+			remove(DISTRICT);
+			remove(TOWN);
+			remove(ADDRESS);
+			remove(ZIPCODE);
+			remove(TEL);
+			remove(MOBILE);
+			remove(EMAIL);
+			remove(BEST_TIME);
+			remove(SIGN_BUILDING);
+		}
+		return true;
+	}
+
+	public boolean setPayment(PaymentEntity payment) {
+		if (payment != null) {
+			setValueAsString(PAY_ID,
+					payment.getValueAsString(PaymentEntity.PAY_ID, ""));
+			setValueAsString(PAY_NAME,
+					payment.getValueAsString(PaymentEntity.PAY_NAME, ""));
+			setValueAsString(PAY_FEE,
+					payment.getValueAsString(PaymentEntity.PAY_FEE, ""));
+			// TODO add pay_fee to amount
+		} else {
+			remove(PAY_ID);
+			remove(PAY_NAME);
+			remove(PAY_FEE);
+		}
+		return true;
+	}
+
+	public boolean setShipping(ShippingEntity shipping) {
+		if (shipping != null) {
+			setValueAsString(SHIPPING_ID,
+					shipping.getValueAsString(ShippingEntity.SHIPPING_ID, ""));
+			setValueAsString(SHIPPING_NAME,
+					shipping.getValueAsString(ShippingEntity.SHIPPING_NAME, ""));
+		} else {
+			remove(SHIPPING_ID);
+			remove(SHIPPING_NAME);
+		}
+		return true;
+	}
+
+	public void initOrderInfo() {
+		setValueAsString(USER_ID,
+				MyAccount.getUser().getValueAsString(UserEntity.USER_ID, ""));
+		setValueAsString(ORDER_SN, createOrderSn());
+		setValueAsString(ORDER_STATUS, "0");
+		setValueAsString(SHIPPING_STATUS, "0");
+		setValueAsString(PAY_STATUS, "0");
+		setValueAsString(ADD_TIME, (System.currentTimeMillis() / 1000l) + "");
+		if (programSetting.debug) {
+			setValueAsString(OrderInfoEntity.POSTSCRIPT, "by app");
+		}
+		otherOrferInfo();
+	}
+
+	public void otherOrferInfo() {
+		setValueAsString(HOW_OOS, "");
+		setValueAsString(HOW_SURPLUS, "");
+		setValueAsString(PACK_NAME, "");
+		setValueAsString(CARD_NAME, "");
+		setValueAsString(CARD_MESSAGE, "");
+		setValueAsString(INV_PAYEE, "");
+		setValueAsString(INV_CONTENT, "");
+		setValueAsString(INVOICE_NO, "");
+		setValueAsString(EXTENSION_CODE, "");
+		setValueAsString(TO_BUYER, "");
+		setValueAsString(PAY_NOTE, "");
+		setValueAsString(AGENCY_ID, "");
+		setValueAsString(INV_TYPE, "");
+		setValueAsString(TAX, "");
+		setValueAsString(FINISH_TIME, "0");
+	}
+
+	public static String createOrderSn() {
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss",
+					Locale.CHINA);
+			String result = sdf.format(new Date(System.currentTimeMillis()));
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "yyyyMMddHHmmss";
+	}
+
+	public String getOrderStatus() {
+		int code = getValueAsInt(ORDER_STATUS, -1);
+		String[] names = new String[]{"未确认", "已确认", "已取消", "无效", "退货", "已确认"};
+		if(code >= 0 && code <= 6){
+			return names[code];
+		}else{
+			return "";
+		}
+	}
+}
